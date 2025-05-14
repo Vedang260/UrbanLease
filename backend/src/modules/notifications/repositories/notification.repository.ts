@@ -2,8 +2,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Notification } from "../entities/notification.entity";
 import { Repository } from "typeorm";
 import { CreateNotificationDto } from "../dtos/createNotification.dto";
-import { InternalServerErrorException } from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
 
+@Injectable()
 export class NotificationRepository{
     constructor(
         @InjectRepository(Notification)
