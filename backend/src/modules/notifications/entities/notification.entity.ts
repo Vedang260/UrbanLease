@@ -1,3 +1,4 @@
+import { NotificationType } from "src/common/enums/notificationType.enums";
 import { User } from "src/modules/users/entities/users.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -17,6 +18,9 @@ export class Notification{
 
     @Column({ default: false })
     isRead: boolean;
+
+    @Column({ type: 'enum', enum: NotificationType })
+    type: NotificationType;
 
     @ManyToOne(() => User, (user) => user.notifications, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'userId' })
