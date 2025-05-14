@@ -1,6 +1,7 @@
 import { PropertyType } from "src/common/enums/propertyType.enums";
 import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Address } from "./address.entity";
+import { Location } from "./location.entity";
 import { Feature } from "./feature.entity";
 import { User } from "src/modules/users/entities/users.entity";
 import { RentalPeriod } from "src/common/enums/rentalPeroid.enums";
@@ -49,14 +50,11 @@ export class Property {
   @Column('int', { default: 0 })
   numberOfBalconies: number;
 
-  @Column('boolean', { default: false })
-  isFurnished: boolean;
-
-  @Column('boolean', { default: false })
-  isAvailable: boolean;
-
   @Column('float')
   rentAmount: number;
+
+  @Column('float')
+  depositAmount: number;
 
   @Column({ type: 'enum', enum: RentalPeriod })
   rentalPeriod: RentalPeriod
@@ -64,15 +62,19 @@ export class Property {
   @Column('text', { array: true})
   images: string[];
 
-  @ManyToMany(() => Feature, { cascade: true })
-  @JoinTable()
-  features: Feature[]; 
+    @ManyToMany(() => Feature, { cascade: true })
+    @JoinTable({
+        name: 'property_features',
+        joinColumn: { name: 'propertyId', referencedColumnName: 'propertyId' },
+        inverseJoinColumn: { name: 'featureId', referencedColumnName: 'featureId' },
+    })
+    features: Feature[]; 
 
   @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'ownerId' })
   owner: User;
 
-  @Column({ type: 'enum', enum: PropertyStatus})
+  @Column({ type: 'enum', enum: PropertyStatus, default: PropertyStatus.PENDING_APPROVAL})
   status: PropertyStatus;
 
   @CreateDateColumn()
