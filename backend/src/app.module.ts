@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './modules/user/modules/user.module';
+import { UsersModule } from './modules/users/modules/user.module';
 import { AuthModule } from './modules/auth/modules/auth.module';
 import { typeOrmConfig } from './config/database.config';
 import { AuthMiddleware } from './modules/auth/middlewares/auth.middleware';
@@ -11,13 +11,7 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
-    UsersModule,
-    LawyerModule,
-    CaseModule,
-    TagModule,
-    NoteModule,
-    EventModule,
-    UploadModule
+    UsersModule
   ],
 
 })
