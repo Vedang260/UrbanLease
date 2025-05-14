@@ -4,6 +4,7 @@ import { Address } from "./address.entity";
 import { Feature } from "./feature.entity";
 import { User } from "src/modules/users/entities/users.entity";
 import { RentalPeriod } from "src/common/enums/rentalPeroid.enums";
+import { PropertyStatus } from "src/common/enums/propertyStatus.enums";
 
 @Entity({ name: 'property' })
 export class Property {
@@ -70,6 +71,9 @@ export class Property {
   @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'ownerId' })
   owner: User;
+
+  @Column({ type: 'enum', enum: PropertyStatus})
+  status: PropertyStatus;
 
   @CreateDateColumn()
   createdAt: Date;

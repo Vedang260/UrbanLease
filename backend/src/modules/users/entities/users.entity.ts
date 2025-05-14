@@ -1,6 +1,7 @@
 import { UserRole } from "src/common/enums/roles.enums";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Notification } from "src/modules/notifications/entities/notification.entity";
+import { Property } from "src/modules/properties/entities/property.entity";
 
 @Entity({ name: 'users' })
 export class User{
@@ -26,7 +27,10 @@ export class User{
     isActive: boolean;
     
     @OneToMany(() => Notification, (notification) => notification.user)
-    notifications: Notification[]
+    notifications: Notification[];
+
+    @OneToMany(() => Property, (property) => property.owner)
+    properties: Property[];
 
     @CreateDateColumn()
     createdAt: Date;
