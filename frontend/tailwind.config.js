@@ -14,6 +14,16 @@ module.exports = {
           light: '#6E7F80',  // Slate
           DEFAULT: '#3B4B4C', // Dark slate
           dark: '#1E2929',   // Charcoal
+  50: '#f5fafa',
+  100: '#e0efef',
+  200: '#c2e0e0',
+  300: '#a3d0d0',
+  400: '#84c1c1',
+  500: '#66b2b2',
+  600: '#4d9999',
+  700: '#397777',
+  800: '#295b5b', // this enables text-secondary-800
+  900: '#1a3f3f',
         },
         accent: {
           DEFAULT: '#C17C74', // Terracotta
