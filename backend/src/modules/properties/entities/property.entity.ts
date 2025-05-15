@@ -63,6 +63,9 @@ export class Property {
   @Column('text', { array: true})
   images: string[];
 
+  @Column()
+  phoneNumber: string;
+  
     @ManyToMany(() => Feature, { cascade: true })
     @JoinTable({
         name: 'property_features',

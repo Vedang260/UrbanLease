@@ -44,5 +44,8 @@ export class CreatePropertyDto{
     rentalPeriod: RentalPeriod
 
     @IsNotEmpty()
-    images: string[];      
+    images: string[];    
+    
+    @IsNotEmpty()
+    phoneNumber: string;
 }
