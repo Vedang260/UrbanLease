@@ -4,3 +4,8 @@ export interface RegisterData{
     password: string;
     role: 'ADMIN' | 'OWNER' | 'TENANT';
 }
+
+export interface LoginData{
+    email: string;
+    password: string;
+}
