@@ -201,13 +201,13 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <Link 
-              to="/properties" 
+              to="/register" 
               className="inline-block bg-accent hover:bg-accent-dark text-white font-medium py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
               Browse Properties
             </Link>
             <Link 
-              to="/contact" 
+              to="/register" 
               className="inline-block bg-transparent border-2 border-secondary-dark text-secondary-dark hover:bg-secondary-dark hover:text-white font-medium py-3 px-8 rounded-full transition-all duration-300"
             >
               Contact an Agent
