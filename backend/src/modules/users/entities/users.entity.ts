@@ -2,6 +2,7 @@ import { UserRole } from "src/common/enums/roles.enums";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Notification } from "src/modules/notifications/entities/notification.entity";
 import { Property } from "src/modules/properties/entities/property.entity";
+import { Review } from "src/modules/reviewes/entities/review.entity";
 
 @Entity({ name: 'users' })
 export class User{
@@ -32,6 +33,9 @@ export class User{
     @OneToMany(() => Property, (property) => property.owner)
     properties: Property[];
 
+    @OneToMany(() => Review, (review) => review.tenant)
+    reviews: Review[];
+    
     @CreateDateColumn()
     createdAt: Date;
 

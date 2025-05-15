@@ -1,11 +1,12 @@
 import { PropertyType } from "src/common/enums/propertyType.enums";
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Address } from "./address.entity";
 import { Location } from "./location.entity";
 import { Feature } from "./feature.entity";
 import { User } from "src/modules/users/entities/users.entity";
 import { RentalPeriod } from "src/common/enums/rentalPeroid.enums";
 import { PropertyStatus } from "src/common/enums/propertyStatus.enums";
+import { Review } from "src/modules/reviewes/entities/review.entity";
 
 @Entity({ name: 'property' })
 export class Property {
@@ -77,6 +78,9 @@ export class Property {
   @Column({ type: 'enum', enum: PropertyStatus, default: PropertyStatus.PENDING_APPROVAL})
   status: PropertyStatus;
 
+  @OneToMany(() => Review, (review) => review.property)
+  reviews: Review[]
+  
   @CreateDateColumn()
   createdAt: Date;
 
