@@ -5,9 +5,6 @@ import { UserRole } from 'src/common/enums/roles.enums';
 export class CreateUserDto {
     @IsNotEmpty()
     fullName: string;
-
-    @IsNotEmpty()
-    phoneNumber: string;
     
     @IsNotEmpty()
     @IsEmail()
