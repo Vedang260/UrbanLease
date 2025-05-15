@@ -6,6 +6,7 @@ import { typeOrmConfig } from './config/database.config';
 import { AuthMiddleware } from './modules/auth/middlewares/auth.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { NotificationModule } from './modules/notifications/modules/notification.module';
+import { ReviewModule } from './modules/reviewes/modules/review.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { NotificationModule } from './modules/notifications/modules/notification
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
     NotificationModule,
-    UsersModule
+    UsersModule,
+    ReviewModule
   ],
 
 })
@@ -28,6 +30,7 @@ export class AppModule {
     .forRoutes(
       { path: 'users', method: RequestMethod.ALL },
       { path: 'notifications', method: RequestMethod.ALL },
+      { path: 'reviews', method: RequestMethod.ALL },
     );
   }
 }
