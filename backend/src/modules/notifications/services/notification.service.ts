@@ -16,6 +16,7 @@ export class NotificationService{
             const newNotification = await this.notificationRepository.createNotification(createNotificationDto);
             if(newNotification){
                 await this.websocketGateway.sendNotificationAlert(newNotification);
+                
             }
         }catch(error){
             console.error('Error in creating notification: ', error.message);

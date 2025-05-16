@@ -12,6 +12,12 @@ export class WebsocketGateway {
   server: Server;
 
   async sendNotificationAlert(newNotification: Notification) {
-    this.server.emit('notificationAlert', {newNotification});
+    try{
+      this.server.emit('notificationAlert', {newNotification});
+      console.log('Notification sent using web-sockets');
+    }
+    catch(error){
+      console.error('Error in sending notifications: ', error.message);
+    }
   }
 }
