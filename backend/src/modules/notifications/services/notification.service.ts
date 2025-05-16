@@ -12,6 +12,9 @@ export class NotificationService{
     async createNotification(createNotificationDto: CreateNotificationDto){
         try{
             const newNotification = await this.notificationRepository.createNotification(createNotificationDto);
+            if(newNotification){
+                
+            }
         }catch(error){
             console.error('Error in creating notification: ', error.message);
             return{
