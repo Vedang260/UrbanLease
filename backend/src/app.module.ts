@@ -7,6 +7,7 @@ import { AuthMiddleware } from './modules/auth/middlewares/auth.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { NotificationModule } from './modules/notifications/modules/notification.module';
 import { ReviewModule } from './modules/reviewes/modules/review.module';
+import { WebsocketGateway } from './modules/notifications/gateway/notification.gateway';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { ReviewModule } from './modules/reviewes/modules/review.module';
     AuthModule,
     NotificationModule,
     UsersModule,
-    ReviewModule
+    ReviewModule,
+    WebsocketGateway
   ],
 
 })
