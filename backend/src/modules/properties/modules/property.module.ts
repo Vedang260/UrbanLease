@@ -11,6 +11,7 @@ import { LocationRepository } from '../repositories/location.repository';
 import { AddressRepository } from '../repositories/address.repository';
 import { NotificationModule } from 'src/modules/notifications/modules/notification.module';
 import { UploadModule } from 'src/utils/upload/upload.module';
+import { FeatureRepository } from '../repositories/feature.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Property, Address, Location, Feature]), 
@@ -18,7 +19,7 @@ import { UploadModule } from 'src/utils/upload/upload.module';
     UploadModule
   ],
   controllers: [PropertyController],
-  providers: [PropertyService, PropertyRepository, LocationRepository, AddressRepository],
-  exports: [PropertyService, PropertyRepository, LocationRepository, AddressRepository],
+  providers: [PropertyService, PropertyRepository, LocationRepository, AddressRepository, FeatureRepository],
+  exports: [PropertyService, PropertyRepository, LocationRepository, AddressRepository, FeatureRepository],
 })
 export class PropertyModule {} 

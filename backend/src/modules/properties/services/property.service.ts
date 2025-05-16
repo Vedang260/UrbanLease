@@ -11,6 +11,9 @@ import { InjectQueue } from "@nestjs/bull";
 import { CreateNotificationDto } from "src/modules/notifications/dtos/createNotification.dto";
 import * as dotenv from 'dotenv';
 import { NotificationType } from "src/common/enums/notificationType.enums";
+import { CreateFeatureDto } from "../dtos/createFeature.dto";
+import { FeatureRepository } from "../repositories/feature.repository";
+import { Feature } from "../entities/feature.entity";
 dotenv.config();
 
 @Injectable()
@@ -19,6 +22,7 @@ export class PropertyService{
         private readonly propertyRepository: PropertyRepository,
         private readonly locationRepository: LocationRepository,
         private readonly addressRepository: AddressRepository,
+         private readonly featureRepository: FeatureRepository,
         @InjectQueue('notificationsQueue') private notificationsQueue: Queue
     ){}
 
@@ -49,9 +53,25 @@ export class PropertyService{
                 throw new InternalServerErrorException('Failed to add address');
             }
 
+            // Step 3: Create Features 
+            const createdFeatures: any = [];
+
+            if (newPropertyDto.features && newPropertyDto.features.length > 0) {
+                for (const feature of newPropertyDto.features) {
+                    const featureDto: CreateFeatureDto = {
+                        name: feature.name,
+                        type: feature.type,
+                        details: feature.details,
+                    };
+                    const createdFeature = await this.featureRepository.addNewFeatures(featureDto);
+                    createdFeatures.push(createdFeature);
+                }
+            }
+
+
             // Step 3: Create property
             const createPropertyDto: CreatePropertyDto = {
-                ownerId,
+                ownerId: ownerId,
                 locationId: location.locationId,
                 addressId: address.addressId,
                 title: newPropertyDto.title,
@@ -65,6 +85,8 @@ export class PropertyService{
                 rentalPeriod: newPropertyDto.rentalPeriod,
                 images: newPropertyDto.images,
                 phoneNumber: newPropertyDto.phoneNumber,
+                features: createdFeatures,
+                propertyType: newPropertyDto.propertyType
             };
 
             const createdProperty = await this.propertyRepository.addNewProperty(createPropertyDto);

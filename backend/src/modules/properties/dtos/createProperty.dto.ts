@@ -2,6 +2,7 @@ import { Type } from "class-transformer";
 import { IsNotEmpty, IsOptional, IsString, ValidateNested } from "class-validator";
 import { RentalPeriod } from "src/common/enums/rentalPeroid.enums";
 import { CreateFeatureDto } from "./createFeature.dto";
+import { PropertyType } from "src/common/enums/propertyType.enums";
 
 export class CreatePropertyDto{
     @IsNotEmpty()
@@ -55,4 +56,7 @@ export class CreatePropertyDto{
     @ValidateNested({ each: true })
     @Type(() => CreateFeatureDto)
     features?: CreateFeatureDto[];
+
+    @IsNotEmpty()
+    propertyType: PropertyType;
 }

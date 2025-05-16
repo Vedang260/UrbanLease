@@ -6,10 +6,10 @@ export class Location{
     @PrimaryGeneratedColumn('uuid')
     locationId: string;
 
-    @Column()
+    @Column({ type: 'double precision' })
     latitude: number;
 
-    @Column()
+    @Column({ type: 'double precision' })
     longitude: number;
 
     @CreateDateColumn()

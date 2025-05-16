@@ -18,7 +18,7 @@ export class PropertyController{
 
     @Post('/create')
     @UseGuards(RolesGuard)
-    @Roles(UserRole.TENANT)
+    @Roles(UserRole.OWNER)
     async createProperty(@Req() req: Request, @Body() newPropertyDto: NewPropertyDto){
         return await this.propertyService.addNewProperty(req['user'].userId, newPropertyDto);
     }

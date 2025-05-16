@@ -2,6 +2,7 @@ import { Type } from "class-transformer";
 import { IsNotEmpty, IsOptional, IsString, Max, Min, ValidateNested } from "class-validator";
 import { RentalPeriod } from "src/common/enums/rentalPeroid.enums";
 import { CreateFeatureDto } from "./createFeature.dto";
+import { PropertyType } from "../../../common/enums/propertyType.enums";
 
 export class NewPropertyDto{
     @IsNotEmpty()
@@ -38,6 +39,9 @@ export class NewPropertyDto{
     
     @IsNotEmpty()
     phoneNumber: string;
+
+    @IsNotEmpty()
+    propertyType: PropertyType;
 
     @IsNotEmpty()
     @Min(-90)
