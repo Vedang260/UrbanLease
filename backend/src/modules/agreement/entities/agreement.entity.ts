@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Payment } from "src/modules/payments/entities/payment.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({ name: 'agreements'})
 export class Agreement{
@@ -19,6 +20,9 @@ export class Agreement{
 
     @Column()
     agreementUrl: string;
+
+    @OneToMany(() => Payment, (payment) => payment.agreement)
+    payments: Payment[];
 
     @CreateDateColumn()
     createdAt: Date;

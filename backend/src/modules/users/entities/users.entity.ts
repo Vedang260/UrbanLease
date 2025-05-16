@@ -4,6 +4,7 @@ import { Notification } from "src/modules/notifications/entities/notification.en
 import { Property } from "src/modules/properties/entities/property.entity";
 import { Review } from "src/modules/reviewes/entities/review.entity";
 import { RentalApplication } from "src/modules/rentals/entities/rentalApplication.entity";
+import { Payment } from "src/modules/payments/entities/payment.entity";
 
 @Entity({ name: 'users' })
 export class User{
@@ -36,7 +37,10 @@ export class User{
     
     @OneToMany(() => RentalApplication, (rentalApplication) => rentalApplication.tenant)
     rentalApplications: RentalApplication[];
-    
+   
+    @OneToMany(() => Payment, (payment) => payment.tenant)
+    payments: Payment[];
+
     @CreateDateColumn()
     createdAt: Date;
 
