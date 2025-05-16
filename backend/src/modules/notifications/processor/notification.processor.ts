@@ -11,12 +11,12 @@ export class NotificationProcessor {
     ) {}
 
     @Process('notify') // Job Name
-    async notify(job: Job<{ createNotificationDto: CreateNotificationDto}>) {
+    async notify(job: Job<{ notificationDto: CreateNotificationDto}>) {
         try{
-            const { createNotificationDto } = job.data;
-            console.log('Notification is received from the queue: ', createNotificationDto);
+            const { notificationDto } = job.data;
+            console.log('Notification is received from the queue: ', notificationDto);
             
-            const result = await this.notificationService.createNotification(createNotificationDto);
+            const result = await this.notificationService.createNotification(notificationDto);
             
             if(result.success){
                 console.log(result.message);
