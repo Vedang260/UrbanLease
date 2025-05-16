@@ -18,7 +18,11 @@ export class NotificationProcessor {
             
             const result = await this.notificationService.createNotification(createNotificationDto);
             
-            if(result)
+            if(result.success){
+                console.log(result.message);
+            }else{
+                console.log(result.message);
+            }
         }catch(error){
             console.error('Error in notification processor: ', error.message);
         }
