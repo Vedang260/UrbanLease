@@ -67,13 +67,13 @@ export class Property {
     @Column()
     phoneNumber: string;
     
-      @ManyToMany(() => Feature, { cascade: true })
-      @JoinTable({
-          name: 'property_features',
-          joinColumn: { name: 'propertyId', referencedColumnName: 'propertyId' },
-          inverseJoinColumn: { name: 'featureId', referencedColumnName: 'featureId' },
-      })
-      features: Feature[]; 
+    @ManyToMany(() => Feature, { cascade: true })
+    @JoinTable({
+        name: 'property_features',
+        joinColumn: { name: 'propertyId', referencedColumnName: 'propertyId' },
+        inverseJoinColumn: { name: 'featureId', referencedColumnName: 'featureId' },
+    })
+    features: Feature[]; 
 
     @ManyToOne(() => User, (user) => user.properties, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'ownerId' })

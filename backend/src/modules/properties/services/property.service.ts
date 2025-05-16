@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PropertyRepository } from "../repositories/property.repository";
+import { NewPropertyDto } from "../dtos/newProperty.dto";
+import { CreateLocationDto } from "../dtos/createLocation.dto";
 
 @Injectable()
 export class PropertyService{
@@ -7,11 +9,15 @@ export class PropertyService{
         private readonly propertyRepository: PropertyRepository
     ){}
 
-    async addNewProperty(){
+    async addNewProperty(newPropertyDto: NewPropertyDto){
         try{
-            
+            const createLocationDto: CreateLocationDto = {
+                latitude: newPropertyDto.latitude,
+                longitude: newPropertyDto.longitude
+            };
+            const locationId = await this.
         }catch(error){
-
+            console.error('Error in creating a new Property: ', error.message);
         }
     }
 
