@@ -1,4 +1,5 @@
 import { ApplicationStatus } from 'src/common/enums/applicationStatus.enums';
+import { RentalDurationType } from 'src/common/enums/rentalDurationType.enums';
 import { Property } from 'src/modules/properties/entities/property.entity';
 import { User } from 'src/modules/users/entities/users.entity';
 import {
@@ -99,6 +100,12 @@ export class RentalApplication {
     })
     status: ApplicationStatus;
 
+    @Column()
+    rentalDuration: number; 
+
+    @Column({ type: 'enum', enum: RentalDurationType})
+    rentalDurationType: RentalDurationType
+    
     @CreateDateColumn()
     createdAt: Date;
 
