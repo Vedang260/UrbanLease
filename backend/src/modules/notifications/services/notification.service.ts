@@ -2,18 +2,20 @@ import { Injectable } from "@nestjs/common";
 import { NotificationRepository } from "../repositories/notification.repository";
 import { Notification } from "../entities/notification.entity";
 import { CreateNotificationDto } from "../dtos/createNotification.dto";
+import { WebsocketGateway } from "../gateway/notification.gateway";
 
 @Injectable()
 export class NotificationService{
     constructor(
-        private readonly notificationRepository: NotificationRepository
+        private readonly notificationRepository: NotificationRepository,
+        private websocketGateway: WebsocketGateway
     ){}
 
     async createNotification(createNotificationDto: CreateNotificationDto){
         try{
             const newNotification = await this.notificationRepository.createNotification(createNotificationDto);
             if(newNotification){
-                
+                await this.websocketGateway.sendNotificationAlert(newNotification);
             }
         }catch(error){
             console.error('Error in creating notification: ', error.message);

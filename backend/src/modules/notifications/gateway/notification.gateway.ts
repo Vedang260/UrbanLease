@@ -11,7 +11,7 @@ export class WebsocketGateway {
   @WebSocketServer()
   server: Server;
 
-  sendNotificationAlert(newNotification: Notification) {
+  async sendNotificationAlert(newNotification: Notification) {
     this.server.emit('notificationAlert', {newNotification});
   }
 }
