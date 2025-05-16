@@ -1,6 +1,12 @@
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faLock, faArrowRight, faHome, faKey } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faEnvelope, 
+  faLock, 
+  faArrowRight, 
+  faShieldAlt,
+  faUserCircle
+} from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -11,6 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Your existing form handling logic
   const initialValues = {
     email: '',
     password: ''
@@ -28,9 +35,9 @@ const Login = () => {
     try {
       const result = await loginUser(values);
       if(result.success){
-        toast.success('Welcome to UrbanLease!');
+        toast.success('Welcome back to UrbanLease!');
         navigate('/');
-      }else{
+      } else {
         toast.error(result.message);
       }
     } catch (error) {
@@ -41,86 +48,76 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex">
-      {/* Left Side - Motivational Section */}
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
+      {/* Left Side - Visual Branding */}
       <motion.div 
-        className="hidden lg:flex w-1/2 bg-gradient-to-br from-secondary-dark to-primary-dark p-12 flex-col justify-center relative overflow-hidden"
+        className="lg:w-1/2 bg-gradient-to-br from-primary-dark to-accent p-12 relative overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center opacity-20" />
+        {/* Luxury property background */}
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80')] bg-cover bg-center opacity-20" />
         
+        {/* Content */}
         <motion.div
-          className="relative z-10 text-white"
+          className="relative z-10 text-white h-full flex flex-col justify-center"
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
         >
-          <h2 className="text-4xl font-serif font-bold mb-6">Welcome Back</h2>
+          <h2 className="text-4xl font-serif font-bold mb-6">
+            Welcome to <span className="text-amber-200">UrbanLease</span>
+          </h2>
           <p className="text-xl mb-8 max-w-md">
-            Access your personalized dashboard to manage your properties or find your next dream home.
+            Your gateway to premium real estate experiences
           </p>
           
-          <motion.div 
-            className="space-y-6"
+          {/* Benefits List */}
+          <motion.ul className="space-y-4">
+            {[
+              "Access your saved properties",
+              "Manage your listings dashboard",
+              "Get personalized recommendations"
+            ].map((item, i) => (
+              <motion.li 
+                key={i}
+                className="flex items-start"
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.3 + i * 0.1 }}
+              >
+                <span className="bg-accent/20 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5">
+                  <FontAwesomeIcon icon={faUserCircle} className="text-accent text-xs" />
+                </span>
+                <span>{item}</span>
+              </motion.li>
+            ))}
+          </motion.ul>
+
+          {/* Trust Badge */}
+          <motion.div
+            className="mt-12 flex items-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ staggerChildren: 0.1, delay: 0.4 }}
+            transition={{ delay: 0.8 }}
           >
-            <motion.div 
-              className="flex items-start"
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-            >
-              <div className="bg-white/20 p-3 rounded-full mr-4">
-                <FontAwesomeIcon icon={faHome} className="text-xl" />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-1">For Property Owners</h3>
-                <p className="text-white/90">Track applications, manage properties, and connect with tenants.</p>
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              className="flex items-start"
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="bg-white/20 p-3 rounded-full mr-4">
-                <FontAwesomeIcon icon={faKey} className="text-xl" />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-1">For Tenants</h3>
-                <p className="text-white/90">Save favorite properties and track your applications.</p>
-              </div>
-            </motion.div>
+            <FontAwesomeIcon icon={faShieldAlt} className="text-accent mr-2" />
+            <span className="text-sm text-white/80">256-bit SSL Encryption</span>
           </motion.div>
-        </motion.div>
-        
-        <motion.div 
-          className="absolute bottom-8 left-8 text-white/80 text-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-        >
-          Don't have an account?{' '}
-          <Link to="/register" className="text-white font-medium hover:underline">
-            Sign Up
-          </Link>
         </motion.div>
       </motion.div>
 
       {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+      <div className="lg:w-1/2 flex items-center justify-center p-8 lg:p-12">
         <motion.div 
-          className="w-full max-w-md"
+          className="w-full max-w-md bg-white lg:shadow-xl lg:rounded-xl lg:p-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="text-center mb-10">
+          {/* Header */}
+          <div className="text-center mb-8">
             <motion.h1 
               className="text-3xl font-serif font-bold text-secondary-dark mb-2"
               initial={{ opacity: 0 }}
@@ -130,24 +127,26 @@ const Login = () => {
               Sign In
             </motion.h1>
             <motion.p 
-              className="text-secondary-600"
+              className="text-secondary-500"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
               {location.state?.registrationSuccess 
                 ? 'Registration successful! Please log in.'
-                : 'Access your account to continue'}
+                : 'Access your UrbanLease account'}
             </motion.p>
           </div>
 
+          {/* Form - Preserving all your Formik/Yup logic */}
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
-              <Form className="space-y-6">
+              <Form className="space-y-5">
+                {/* Email Field */}
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -157,8 +156,8 @@ const Login = () => {
                     <Field
                       name="email"
                       type="email"
-                      placeholder="Email"
-                      className="w-full p-4 pl-12 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
+                      placeholder="Email Address"
+                      className="w-full p-3 pl-11 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
                     />
                     <FontAwesomeIcon 
                       icon={faEnvelope} 
@@ -168,6 +167,7 @@ const Login = () => {
                   <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
                 </motion.div>
 
+                {/* Password Field */}
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -178,7 +178,7 @@ const Login = () => {
                       name="password"
                       type="password"
                       placeholder="Password"
-                      className="w-full p-4 pl-12 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
+                      className="w-full p-3 pl-11 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
                     />
                     <FontAwesomeIcon 
                       icon={faLock} 
@@ -188,6 +188,7 @@ const Login = () => {
                   <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
                 </motion.div>
 
+                {/* Remember Me & Forgot Password */}
                 <motion.div
                   className="flex items-center justify-between"
                   initial={{ opacity: 0, y: 10 }}
@@ -195,56 +196,95 @@ const Login = () => {
                   transition={{ delay: 0.6 }}
                 >
                   <div className="flex items-center">
-                    <input
-                      id="remember-me"
-                      name="remember-me"
+                    <Field
+                      id="rememberMe"
+                      name="rememberMe"
                       type="checkbox"
                       className="h-4 w-4 text-accent focus:ring-accent border-neutral-300 rounded"
                     />
-                    <label htmlFor="remember-me" className="ml-2 block text-sm text-secondary-600">
+                    <label htmlFor="rememberMe" className="ml-2 block text-sm text-secondary-600">
                       Remember me
                     </label>
                   </div>
                   <div className="text-sm">
-                    <Link to="/forgot-password" className="font-medium text-accent hover:text-accent-dark">
+                    <Link 
+                      to="/forgot-password" 
+                      className="font-medium text-accent hover:text-accent-dark hover:underline"
+                    >
                       Forgot password?
                     </Link>
                   </div>
                 </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
+                {/* Submit Button */}
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-accent hover:bg-accent-dark text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 mt-6 flex items-center justify-center shadow-md hover:shadow-lg"
                 >
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-accent hover:bg-accent-dark text-white font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center"
-                  >
-                    {isSubmitting ? (
-                      'Signing in...'
-                    ) : (
-                      <>
-                        Sign In
-                        <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
-                      </>
-                    )}
-                  </button>
-                </motion.div>
+                  {isSubmitting ? (
+                    'Signing in...'
+                  ) : (
+                    <>
+                      Sign In <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                    </>
+                  )}
+                </motion.button>
               </Form>
             )}
           </Formik>
 
+          {/* Social Login (Optional) */}
+          
+          <motion.div
+            className="mt-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-neutral-200"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-secondary-500">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                className="w-full inline-flex justify-center py-2 px-4 border border-neutral-200 rounded-md shadow-sm bg-white text-sm font-medium text-secondary-500 hover:bg-neutral-50"
+              >
+                <span>Google</span>
+              </button>
+              <button
+                type="button"
+                className="w-full inline-flex justify-center py-2 px-4 border border-neutral-200 rounded-md shadow-sm bg-white text-sm font-medium text-secondary-500 hover:bg-neutral-50"
+              >
+                <span>Apple</span>
+              </button>
+            </div>
+          </motion.div>
+          
+
+          {/* Sign Up Link */}
           <motion.div 
-            className="text-center mt-8 text-secondary-600 text-sm lg:hidden"
+            className="text-center mt-6 text-secondary-500 text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
           >
-            Don't have an account?{' '}
-            <Link to="/register" className="text-accent font-medium hover:underline">
-              Sign Up
+            New to UrbanLease?{' '}
+            <Link 
+              to="/register" 
+              className="text-accent font-medium hover:underline"
+            >
+              Create an account
             </Link>
           </motion.div>
         </motion.div>
