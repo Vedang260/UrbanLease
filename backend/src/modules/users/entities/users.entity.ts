@@ -3,6 +3,7 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Up
 import { Notification } from "src/modules/notifications/entities/notification.entity";
 import { Property } from "src/modules/properties/entities/property.entity";
 import { Review } from "src/modules/reviewes/entities/review.entity";
+import { RentalApplication } from "src/modules/rentals/entities/rentalApplication.entity";
 
 @Entity({ name: 'users' })
 export class User{
@@ -32,6 +33,9 @@ export class User{
 
     @OneToMany(() => Review, (review) => review.tenant)
     reviews: Review[];
+    
+    @OneToMany(() => RentalApplication, (rentalApplication) => rentalApplication.tenant)
+    rentalApplications: RentalApplication[];
     
     @CreateDateColumn()
     createdAt: Date;
