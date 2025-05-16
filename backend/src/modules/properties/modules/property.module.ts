@@ -10,9 +10,13 @@ import { PropertyController } from '../controllers/property.controller';
 import { LocationRepository } from '../repositories/location.repository';
 import { AddressRepository } from '../repositories/address.repository';
 import { NotificationModule } from 'src/modules/notifications/modules/notification.module';
+import { UploadModule } from 'src/utils/upload/upload.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Property, Address, Location, Feature]), NotificationModule],
+  imports: [TypeOrmModule.forFeature([Property, Address, Location, Feature]), 
+    NotificationModule,
+    UploadModule
+  ],
   controllers: [PropertyController],
   providers: [PropertyService, PropertyRepository, LocationRepository, AddressRepository],
   exports: [PropertyService, PropertyRepository, LocationRepository, AddressRepository],

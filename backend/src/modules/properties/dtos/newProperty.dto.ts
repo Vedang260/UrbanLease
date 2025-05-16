@@ -1,5 +1,7 @@
-import { IsNotEmpty, IsOptional, IsString, Max, Min } from "class-validator";
+import { Type } from "class-transformer";
+import { IsNotEmpty, IsOptional, IsString, Max, Min, ValidateNested } from "class-validator";
 import { RentalPeriod } from "src/common/enums/rentalPeroid.enums";
+import { CreateFeatureDto } from "./createFeature.dto";
 
 export class NewPropertyDto{
     @IsNotEmpty()
@@ -66,4 +68,9 @@ export class NewPropertyDto{
     @IsNotEmpty()
     @IsString()
     zipcode: string;
+
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => CreateFeatureDto)
+    features?: CreateFeatureDto[];
 }

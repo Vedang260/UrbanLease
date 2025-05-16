@@ -79,7 +79,7 @@ export class Property {
     @JoinColumn({ name: 'ownerId' })
     owner: User;
 
-    @ManyToOne(() => RentalApplication, (rentalApplication) => rentalApplication.property, { onDelete: 'CASCADE' })
+    @OneToMany(() => RentalApplication, (rentalApplication) => rentalApplication.property, { onDelete: 'CASCADE' })
     rentalApplications: RentalApplication[];
 
     @Column({ type: 'enum', enum: PropertyStatus, default: PropertyStatus.PENDING_APPROVAL})
