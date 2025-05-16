@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { NotificationModule } from './modules/notifications/modules/notification.module';
 import { ReviewModule } from './modules/reviewes/modules/review.module';
 import { WebsocketGateway } from './modules/notifications/gateway/notification.gateway';
+import { PropertyModule } from './modules/properties/modules/property.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { WebsocketGateway } from './modules/notifications/gateway/notification.g
     NotificationModule,
     UsersModule,
     ReviewModule,
-    WebsocketGateway
+    WebsocketGateway,
+    PropertyModule
   ],
 
 })
@@ -32,6 +34,7 @@ export class AppModule {
     .forRoutes(
       { path: 'users', method: RequestMethod.ALL },
       { path: 'notifications', method: RequestMethod.ALL },
+       { path: 'properties', method: RequestMethod.ALL },
       { path: 'reviews', method: RequestMethod.ALL },
     );
   }

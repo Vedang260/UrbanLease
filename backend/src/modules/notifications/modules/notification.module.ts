@@ -16,6 +16,6 @@ import { BullModule } from '@nestjs/bull';
   ],
   controllers: [NotificationController],
   providers: [NotificationService, NotificationRepository, NotificationProcessor, WebsocketGateway],
-  exports: [NotificationService, NotificationRepository, NotificationProcessor],
+  exports: [NotificationService, NotificationRepository, NotificationProcessor, BullModule],
 })
 export class NotificationModule {} 
