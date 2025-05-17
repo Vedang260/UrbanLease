@@ -132,13 +132,21 @@ export class PropertyService{
     //     }
     // }
 
-    // async getPropertyRequests(){
-    //     try{
-
-    //     }catch(error){
-
-    //     }
-    // }
+    async getPropertyRequests(){
+        try{
+            const property = await this.propertyRepository.getPropertyRequests();
+            if(property){
+                return{
+                    success: true,
+                    message: 'Property requests are fetched',
+                    propertyRequest: property
+                }
+            }
+            throw new Error('Failed to fetch property request');
+        }catch(error){
+            console.error('Error in fetching property requests');
+        }
+    }
 
     // async getPropertyListing(){
     //     try{

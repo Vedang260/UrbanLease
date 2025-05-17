@@ -30,4 +30,9 @@ export class PropertyController{
     async uploadImage(@UploadedFiles() files: Express.Multer.File[]){
         return await this.uploadService.uploadMultipleFiles(files);
     }
+
+    @Get('requests')
+    async getPropertyRequest(){
+        return await this.propertyService.getPropertyRequests();
+    }
 }

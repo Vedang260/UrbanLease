@@ -47,7 +47,6 @@ export class PropertyRepository{
         try {
             const properties = await this.propertyRepository.find({
                 relations: [
-                    'owner',
                     'location',
                     'address',
                     'features',
