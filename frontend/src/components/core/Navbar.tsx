@@ -11,7 +11,10 @@ import {
   faEnvelope, 
   faMapMarkerAlt 
 } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/hooks';
+import { logout } from '../../redux/slice/authSlice';
+import { useDispatch } from 'react-redux';
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -19,7 +22,10 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const profileRef = useRef(null);
-
+  const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   // Close profile dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -53,6 +59,12 @@ const Navbar = () => {
     { name: 'About', path: '/about', icon: faInfoCircle },
     { name: 'Contact', path: '/contact', icon: faEnvelope }
   ];
+
+  function handleLogout(): void {
+    dispatch(logout());
+    console.log('Logout');
+    navigate('/');
+  }
 
   return (
     <motion.nav 
@@ -148,7 +160,7 @@ const Navbar = () => {
                 <div className="h-9 w-9 rounded-full bg-gradient-to-br from-primary-light to-accent-default flex items-center justify-center text-white shadow-md">
                   <FontAwesomeIcon icon={faUser} />
                 </div>
-                <span className="hidden md:block text-secondary-800 font-medium">John</span>
+                <span className="hidden md:block text-secondary-800 font-medium">{user?.username || 'Anonymous'}</span>
               </motion.button>
 
               <AnimatePresence>
@@ -161,9 +173,9 @@ const Navbar = () => {
                     className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl py-1 z-50 border border-neutral-100"
                   >
                     <div className="px-4 py-3 border-b border-neutral-100">
-                      <p className="text-sm font-medium text-secondary-800">John Doe</p>
-                      <p className="text-xs text-secondary-500">Agent</p>
-                      <p className="text-xs text-accent-default mt-1">john.doe@urbanlease.com</p>
+                      <p className="text-sm font-medium text-secondary-800">{user?.username || "Anonymous"}</p>
+                      <p className="text-xs text-secondary-500">{ user?.role || "Role"}</p>
+                      <p className="text-xs text-accent-default mt-1">{ user?.email || "Email Id"}</p>
                     </div>
                     
                     <div className="py-1">
@@ -183,7 +195,7 @@ const Navbar = () => {
                     <div className="border-t border-neutral-100 py-1">
                       <button
                         className="flex items-center w-full px-4 py-2 text-sm text-secondary-700 hover:bg-neutral-50"
-                        onClick={() => console.log('Logout')}
+                        onClick={() => handleLogout()}
                       >
                         <FontAwesomeIcon icon={faSignOutAlt} className="mr-3 text-accent-default" />
                         Logout

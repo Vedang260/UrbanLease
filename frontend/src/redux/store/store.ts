@@ -1,13 +1,13 @@
 // store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-import rootReducer from '../slice/authSlice';
+import storage from 'redux-persist/lib/storage';
+import rootReducer from '../rootReducer';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'], // only persist the auth reducer (for user details)
+  whitelist: ['auth'], // Only persist the auth reducer
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -23,5 +23,7 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-export type RootState = ReturnType<typeof store.getState>;
+
+// Type definitions
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

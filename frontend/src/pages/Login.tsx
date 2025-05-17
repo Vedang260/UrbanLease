@@ -12,11 +12,13 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { loginUser } from '../apis/auth';
 import toast from 'react-hot-toast';
+import { loginSuccess } from '../redux/slice/authSlice';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const dispatch = useDispatch();
   // Your existing form handling logic
   const initialValues = {
     email: '',
@@ -35,6 +37,10 @@ const Login = () => {
     try {
       const result = await loginUser(values);
       if(result.success){
+         dispatch(loginSuccess({
+          user: result?.user,
+          token: result?.token
+        }));
         toast.success('Welcome back to UrbanLease!');
         navigate('/');
       } else {
