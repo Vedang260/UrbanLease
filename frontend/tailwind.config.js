@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
+          50: '#FAF7F0',
           light: '#F3E8D2', // Cream
           DEFAULT: '#D4B483', // Warm beige
           dark: '#A07855',   // Earth brown
@@ -30,6 +31,9 @@ module.exports = {
           dark: '#8C5E58',    // Deep terracotta
         },
         neutral: colors.stone
+      },
+      clipPath: {
+        roof: 'polygon(0 100%, 50% 0, 100% 100%)',
       },
       fontFamily: {
         sans: ['"Inter"', 'sans-serif'],

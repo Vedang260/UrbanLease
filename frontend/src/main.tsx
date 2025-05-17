@@ -9,7 +9,11 @@ import { Provider } from 'react-redux';
 
 const Root = () => (
   <Provider store={store}>
-    <PersistGate loading={<LoadingSpinner />} persistor={persistor}>
+    <PersistGate
+      loading={<LoadingSpinner />}
+      persistor={persistor}
+      onBeforeLift={() => new Promise((resolve) => setTimeout(resolve, 3000))} // 3-second delay
+    >
       <App />
     </PersistGate>
   </Provider>
