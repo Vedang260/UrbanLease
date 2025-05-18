@@ -115,22 +115,6 @@ export class PropertyService{
         }
     }
 
-    // async editProperty(){
-    //     try{
-
-    //     }catch(error){
-
-    //     }
-    // }
-
-    // async deleteProperty(){
-    //     try{
-
-    //     }catch(error){
-
-    //     }
-    // }
-
     async getPropertyRequests(){
         try{
             const property = await this.propertyRepository.getPropertyRequests();

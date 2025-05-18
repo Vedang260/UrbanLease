@@ -29,6 +29,9 @@ export class Property {
     @Column('uuid')
     addressId: string;
 
+    @Column('uuid')
+    ownerId: string;
+
     @ManyToOne(() => Address, { cascade: true })
     @JoinColumn({ name: 'addressId' })
     address: Address; // References Address entity
