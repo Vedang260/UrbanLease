@@ -23,10 +23,11 @@ import {
   faChevronRight
 } from '@fortawesome/free-solid-svg-icons';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { uploadPropertyImages } from '../../apis/property';
+import { addNewProperty, uploadPropertyImages } from '../../apis/property';
 import { useAppSelector } from '../../hooks/hooks';
 import toast from 'react-hot-toast';
 import type { Feature, PropertyFormValues } from '../../types/property';
+import { useNavigate } from 'react-router-dom';
 
 
 // Form Steps
@@ -679,7 +680,8 @@ const ReviewStep: React.FC<{ values: PropertyFormValues }> = ({ values }) => {
 const AddPropertyForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const { token } = useAppSelector((state) => state.auth);
-
+  const navigate = useNavigate();
+  
   const handleSubmit = async (values: PropertyFormValues) => {
     try {
       // Prepare form data for submission
@@ -689,10 +691,18 @@ const AddPropertyForm: React.FC = () => {
         images: values.uploadedImageUrls,
       };
 
+
       // Here you would call your API to submit the property
       console.log('Submitting property:', formData);
       // const response = await submitProperty(formData, token);
-      toast.success('Property submitted successfully!');
+      if(token){
+        const result = await addNewProperty(formData, token);
+        if(result.success){
+            toast.success('Property submitted successfully!');
+            navigate('/owner/properties/my-properties')
+        }
+      }
+
     } catch (error) {
       toast.error('Failed to submit property');
     }
