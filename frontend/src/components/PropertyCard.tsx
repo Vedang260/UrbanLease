@@ -54,9 +54,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                   {property?.address?.street}, {property?.address?.city}
                 </p>
                 
-                <p className="text-secondary-600 mb-4 line-clamp-2">
+                {/* <p className="text-secondary-600 mb-4 line-clamp-2">
                   {property?.description}
-                </p>
+                </p> */}
                 
                 <div className="flex justify-between text-sm text-secondary-500 border-t border-neutral-100 pt-4">
                   <span className="flex items-center">

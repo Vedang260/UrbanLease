@@ -116,7 +116,7 @@ const Sidebar = () => {
         icon: faBuilding,
         path: '/properties',
         submenu: [
-          { name: 'All Properties', path: '/properties' },
+          { name: 'All Properties', path: 'admin/properties' },
           { name: 'Pending Approvals', path: '/admin/properties/pending' },
         ],
       },
