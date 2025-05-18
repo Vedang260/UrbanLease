@@ -73,9 +73,9 @@ const Sidebar = () => {
       {
         name: 'My Properties',
         icon: faBuilding,
-        path: '/owner/properties',
+        path: '/owner/properties/',
         submenu: [
-          { name: 'Active Listings', path: '/owner/properties/active' },
+          { name: 'Active Listings', path: '/owner/properties/my-properties' },
           { name: 'Add New Property', path: '/owner/properties/new' },
         ],
       },
