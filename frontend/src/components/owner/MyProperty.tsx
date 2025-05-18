@@ -5,7 +5,7 @@ import PropertyCard from '../../components/PropertyCard';
 import { useAppSelector } from '../../hooks/hooks';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../redux/slice/loadingSlice';
-import { fetchPropertyRequests } from '../../apis/property';
+import { getOwnerProperties } from '../../apis/property';
 import toast from 'react-hot-toast';
 
 const MyProperty: React.FC = () => {
@@ -26,11 +26,11 @@ const MyProperty: React.FC = () => {
             try {
                 dispatch(setLoading(true));
                 if(token){
-                    const response = await fetchPropertyRequests(token);
+                    const response = await getOwnerProperties(token);
 
                     console.log("Response in property", response);
                     if (response.success) {
-                        setProperties(response?.propertyRequest);
+                        setProperties(response?.properties);
                         console.log(properties);
                     } else {
                         toast.error(response.message);

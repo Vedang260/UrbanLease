@@ -5,6 +5,7 @@ import Footer from './components/core/Footer';
 import AppRoutes from './routes';
 import { Toaster } from 'react-hot-toast';
 import { useAppSelector } from './hooks/hooks';
+import { LoadScript } from '@react-google-maps/api';
 
 function App() {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
@@ -30,7 +31,9 @@ function App() {
                 : ''
             }`}
           >
-            <AppRoutes />
+            <LoadScript googleMapsApiKey='AIzaSyCAZ_419S_et5huTGg9w1larVyDu5exq7s' >
+              <AppRoutes />
+            </LoadScript>
           </main>
         </div>
         <Footer />

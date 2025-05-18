@@ -287,7 +287,7 @@ const PropertyDetails: React.FC = () => {
             {property.location && (
               <>
                 <div className="mb-4">
-                  <LoadScript googleMapsApiKey="AIzaSyCAZ_419S_et5huTGg9w1larVyDu5exq7s">
+
                     <GoogleMap
                       mapContainerStyle={mapContainerStyle}
                       center={{
@@ -301,7 +301,7 @@ const PropertyDetails: React.FC = () => {
                         lng: property.location.longitude
                       }} />
                     </GoogleMap>
-                  </LoadScript>
+                
                 </div>
                 <a 
                   href={`https://www.google.com/maps?q=${property.location.latitude},${property.location.longitude}`}
