@@ -30,6 +30,7 @@
     "formik": "^2.4.6",
     "framer-motion": "^12.11.3",
     "leaflet": "^1.9.4",
+    "lucide-react": "^0.511.0",
     "postcss": "^8.5.3",
     "react": "^19.1.0",
     "react-datepicker": "^8.3.0",
