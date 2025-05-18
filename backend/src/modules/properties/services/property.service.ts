@@ -115,7 +115,6 @@ export class PropertyService{
         }
     }
 
-
     // async editProperty(){
     //     try{
 
@@ -148,19 +147,39 @@ export class PropertyService{
         }
     }
 
-    // async getPropertyListing(){
-    //     try{
+    async getPropertyByPropertyId(propertyId: string){
+        try{
+            const property = await this.propertyRepository.getPropertyById(propertyId);
+            return{
+                success: true,
+                message: 'Property is fetched',
+                property: property
+            }
+        }catch(error){
+            console.error('Error in fetching the property details: ', error.message);
+            return{
+                success: false,
+                message: 'Failed to fetch the property details'
+            }
+        }
+    }
 
-    //     }catch(error){
-
-    //     }
-    // }
-
-    // async getOwnerProperties(){
-    //     try{
-
-    //     }catch(error){
-
-    //     }
-    // }
+    async approvePropertyRequest(propertyId: string){
+        try{
+            const result = await this.propertyRepository.approveProperty(propertyId);
+            if(result){
+                return{
+                    success: true,
+                    message: 'Property is approved successfully'
+                }
+            }
+            throw new Error('Failed to approve property');
+        }catch(error){
+            console.error('Error in approving the status of the property: ', error.message);
+            return{
+                success: false,
+                message: 'Failed to approve the property'
+            }
+        }
+    }
 }

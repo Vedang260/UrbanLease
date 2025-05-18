@@ -104,4 +104,33 @@ export class PropertyRepository{
             throw new InternalServerErrorException('Error in fetching owner properties');
         }
     }
+
+    async getPropertyById(propertyId: string): Promise<Property|null>{
+        try{
+            return await this.propertyRepository.findOne({
+                relations: [
+                    'location',
+                    'address',
+                    'features',
+                ],
+                order: {
+                    createdAt: 'DESC',
+                },
+                where: {propertyId}
+            });
+        }catch(error){
+            console.log('Error in fetching the property details: ', error.message);
+            throw new InternalServerErrorException('Failed to fetch the property details');
+        }
+    }
+
+    async approveProperty(propertyId: string): Promise<boolean>{
+        try{
+            const result = await this.propertyRepository.update({propertyId}, { status: PropertyStatus.AVAILABLE });
+            return result.affected ? result.affected > 0 : false;
+        }catch(error){
+            console.error('Error in approving the property: ', error.message);
+            throw new InternalServerErrorException('Failed to approve property');
+        }
+    }
 }
