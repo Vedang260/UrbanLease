@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBell,
   faUser,
-  faSearch,
   faSignOutAlt,
   faHome,
   faInfoCircle,
@@ -18,7 +17,6 @@ import { useDispatch } from 'react-redux';
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const profileRef = useRef(null);
@@ -127,25 +125,6 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
-
-          {/* Search Bar */}
-          <motion.div
-            className={`hidden md:flex items-center px-3 rounded-full transition-all duration-300 ${
-              isSearchFocused
-                ? 'bg-white shadow-md ring-2 ring-accent-default'
-                : 'bg-neutral-100'
-            }`}
-            animate={{ width: isSearchFocused ? 280 : 220 }}
-          >
-            <FontAwesomeIcon icon={faSearch} className="text-secondary-500 mr-2" />
-            <input
-              type="text"
-              placeholder="Search properties..."
-              className="py-2 bg-transparent w-full text-secondary-800 placeholder-secondary-400"
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setIsSearchFocused(false)}
-            />
-          </motion.div>
 
           {/* Icons */}
           <div className="flex items-center space-x-3 md:space-x-4">
@@ -314,7 +293,7 @@ const Navbar = () => {
                 </Link>
               ))}
 
-              {/* Search bar in mobile menu */}
+              {/* Search bar in mobile menu
               <div className="relative mt-3 px-3">
                 <div className="flex items-center bg-neutral-100 px-3 rounded-full">
                   <FontAwesomeIcon
@@ -327,7 +306,7 @@ const Navbar = () => {
                     className="w-full p-2 bg-transparent text-secondary-800 placeholder-secondary-400"
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </motion.div>
         )}
