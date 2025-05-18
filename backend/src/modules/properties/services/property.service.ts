@@ -152,6 +152,17 @@ export class PropertyService{
         try{
             const result = await this.propertyRepository.approveProperty(propertyId);
             if(result){
+                const property = await this.propertyRepository.getPropertyById(propertyId);
+                const notificationDto: CreateNotificationDto = {
+                    userId: property?.ownerId as string,
+                    title: 'Property Approval',
+                    message: `Congratulations🎉 !!!  \n
+                        Your Property "${property?.title}" has been approved by Admin.`,
+                    type: NotificationType.ALERT
+                }
+                
+                await this.notificationsQueue.add('notify', {notificationDto});
+                
                 return{
                     success: true,
                     message: 'Property is approved successfully'
