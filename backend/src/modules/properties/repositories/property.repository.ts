@@ -86,7 +86,7 @@ export class PropertyRepository{
         }
     }
 
-    async getOwnerProperties(){
+    async getOwnerProperties(ownerId: string){
         try{
             const properties = await this.propertyRepository.find({
                 relations: [
@@ -98,7 +98,9 @@ export class PropertyRepository{
                 order: {
                     createdAt: 'DESC',
                 },
+                where: { ownerId }
             });
+            return properties;
         }catch(error){
             console.error('Error in fetching owner properties: ', error.message);
             throw new InternalServerErrorException('Error in fetching owner properties');

@@ -177,4 +177,21 @@ export class PropertyService{
             }
         }
     }
+
+    async getOwnerProperties(ownerId: string){
+        try{
+            const properties = await this.propertyRepository.getOwnerProperties(ownerId);
+            return{
+                success: true,
+                message: 'Owner properties are fetched',
+                properties: properties
+            }
+        }catch(error){
+            console.error('Error in fetching owner properties: ', error.message);
+            return{
+                success: false,
+                message: 'Failed to fetch the owner properties'
+            }
+        }
+    }
 }
