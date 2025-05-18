@@ -134,7 +134,7 @@ const PropertyDetails: React.FC = () => {
                 if (token && propertyId) {
                     const response = await approveProperty(propertyId, token);
                 if (response.success) {
-                    navigate('/admin/property/pending')
+                    navigate('/admin/properties/pending')
                 } else {
                     toast.error(response.message);
                 }
@@ -177,7 +177,7 @@ const PropertyDetails: React.FC = () => {
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Property Header */}
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">{property.title}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-accent mb-2">{property.title}</h1>
         <p className="text-gray-600 flex items-center">
           <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2 text-accent" />
           {property.address.street}, {property.address.city}, {property.address.state} - {property.address.zipcode}
