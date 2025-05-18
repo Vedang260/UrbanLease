@@ -31,6 +31,11 @@ export class PropertyController{
         return await this.uploadService.uploadMultipleFiles(files);
     }
 
+    @Get('requests')
+    async getPropertyRequest(){
+        return await this.propertyService.getPropertyRequests();
+    }
+
     @Get(':id')
     @UseGuards(RolesGuard)
     @Roles(UserRole.ADMIN, UserRole.OWNER, UserRole.TENANT)
@@ -43,10 +48,5 @@ export class PropertyController{
     @Roles(UserRole.ADMIN)
     async approveProperty(@Param('id') propertyId: string){
         return await this.propertyService.approvePropertyRequest(propertyId);
-    }
-
-    @Get('requests')
-    async getPropertyRequest(){
-        return await this.propertyService.getPropertyRequests();
     }
 }
