@@ -77,7 +77,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
               {/* View Details Button */}
               <div className="px-6 pb-6">
                 <Link 
-                  to={`/property/${property.propertyId}`}
+                  to={`/admin/property/${property.propertyId}`}
                   className="block w-full py-3 text-center bg-primary-light text-secondary-dark font-medium rounded-lg hover:bg-primary transition-colors duration-300"
                 >
                   View Details

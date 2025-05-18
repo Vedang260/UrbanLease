@@ -4,6 +4,7 @@ import Home  from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import PropertyRequest from './components/admin/PropertyRequest';
+import PropertyDetails from './components/admin/PropertyDetails';
 
 const AppRoutes = () => {
   return (
@@ -12,6 +13,7 @@ const AppRoutes = () => {
       <Route path="/register" element={<Register />}/>
       <Route path="/login" element={<Login />}/>
       <Route path="/admin/properties/pending" element={<PropertyRequest />} />
+      <Route path="/admin/property/:propertyId" element={<PropertyDetails />} />
     </Routes>
   );
 };
