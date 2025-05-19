@@ -5,6 +5,9 @@ import { PropertyModule } from 'src/modules/properties/modules/property.module';
 import { NotificationModule } from 'src/modules/notifications/modules/notification.module';
 import { Agreement } from '../entities/agreement.entity';
 import { AgreementProcessor } from '../processor/agreement.processor';
+import { AgreementController } from '../controller/agreement.controller';
+import { AgreementRepository } from '../repositories/agreement.repository';
+import { AgreementService } from '../service/agreement.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Agreement]), 
@@ -14,7 +17,8 @@ import { AgreementProcessor } from '../processor/agreement.processor';
         name: 'agreementsQueue',
     }),
   ],
-  providers: [AgreementProcessor],
-  exports: [BullModule],
+  controllers: [AgreementController],
+  providers: [AgreementService, AgreementRepository, AgreementProcessor],
+  exports: [AgreementService, AgreementRepository, BullModule],
 })
 export class AgreementModule {} 
