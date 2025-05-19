@@ -12,7 +12,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-
 @Entity({ name: 'rental_applications' })
 export class RentalApplication {
     @PrimaryGeneratedColumn('uuid')
@@ -99,6 +98,9 @@ export class RentalApplication {
         default: ApplicationStatus.PENDING,
     })
     status: ApplicationStatus;
+
+    @Column()
+    expectedMoveInDate: Date;
 
     @Column()
     rentalDuration: number; 
