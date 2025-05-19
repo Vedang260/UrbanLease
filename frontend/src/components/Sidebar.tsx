@@ -58,8 +58,8 @@ const Sidebar = () => {
         icon: faCreditCard,
         path: '/tenant/payments',
         submenu: [
-          { name: 'Payment History', path: '/tenant/payments/history' },
-          { name: 'Upcoming Payments', path: '/tenant/payments/upcoming' },
+          { name: 'Payment History', path: '/tenants/payments/history' },
+          { name: 'Upcoming Payments', path: '/tenants/payments/upcoming' },
         ],
       },
     ],

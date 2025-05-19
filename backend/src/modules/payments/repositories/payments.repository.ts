@@ -72,7 +72,7 @@ export class PaymentRepository{
         try{
             return await this.paymentRepository.find({
                 where: { tenantId, status: PaymentStatus.PENDING },
-                order: { dueDate: 'DESC' }
+                order: { dueDate: 'ASC' }
             });
         }catch(error){
             console.error('Error in fetching the upcoming payments of tenant: ', error.message);
@@ -98,7 +98,7 @@ export class PaymentRepository{
         try{
             return await this.paymentRepository.find({
                 where: { status: PaymentStatus.PENDING },
-                order: { dueDate: 'DESC' }
+                order: { dueDate: 'ASC' }
             });
         }catch(error){
             console.error('Error in fetching the upcoming payments: ', error.message);
