@@ -58,7 +58,7 @@ export class AgreementProcessor {
                             
 
                             if(agreementResult.success && agreementResult.agreement){
-                                const createPaymentPeriod: CreatePaymentPeriodDto = {
+                                const createPaymentPeriodDto: CreatePaymentPeriodDto = {
                                     tenantId: rentalApplication.tenantId,
                                     agreementId: agreementResult.agreement?.agreementId,
                                     startDate: agreementResult.agreement?.startDate,
@@ -66,7 +66,7 @@ export class AgreementProcessor {
                                     rentalDuration: rentalApplication.rentalDuration
                                 };
 
-                                await this.paymentsQueue.add('processPayments', createPaymentPeriod);
+                                await this.paymentsQueue.add('processPayments', {createPaymentPeriodDto});
                             }
                         }
                     }

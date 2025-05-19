@@ -18,29 +18,33 @@ export class PaymentsProcessor {
             console.log('Data for payments is received from the queue: ', createPaymentPeriodDto);
 
             const {
-            tenantId,
-            agreementId,
-            amount,
-            startDate,
-            rentalDuration
-        } = createPaymentPeriodDto;
-
-        const payments: CreatePaymentDto[] = [];
-
-        for (let i = 0; i < rentalDuration; i++) {
-            const dueDate = new Date(
-                startDate.getFullYear(),
-                startDate.getMonth() + i,
-                startDate.getDate()
-            );
-
-            payments.push({
                 tenantId,
                 agreementId,
                 amount,
-                dueDate
-            });
-        }
+                startDate: rawStartDate,
+                rentalDuration
+            } = createPaymentPeriodDto;
+
+            // Convert startDate string to a Date object
+            const startDate = new Date(rawStartDate);
+
+            const payments: CreatePaymentDto[] = [];
+
+            for (let i = 0; i < rentalDuration; i++) {
+                const dueDate = new Date(
+                    startDate.getFullYear(),
+                    startDate.getMonth() + i,
+                    startDate.getDate()
+                );
+
+                payments.push({
+                    tenantId,
+                    agreementId,
+                    amount,
+                    dueDate
+                });
+            }
+
 
         // Call your bulk creation service
         await this.paymentService.createBulkPayments(payments);
