@@ -146,4 +146,68 @@ export class PaymentService {
             console.error('Error in creating bulk payments: ', error.message);
         }
     }
+
+    async getPaymentHistoryOfTenant(tenantId: string){
+      try{
+        const payments = await this.paymentRepository.getPaymentHistoryOfTenant(tenantId);
+        return{
+          success: true,
+          message: 'Payment History is fetched',
+          payments: payments
+        }
+      }catch(error){
+        console.error('Error in fetching the payment history of tenant: ', error.message);
+
+      }
+    }
+
+    async getUpcomingPaymentsOfTenant(tenantId: string){
+      try{
+        const payments = await this.paymentRepository.getUpcomingPaymentsOfTenant(tenantId);
+        return{
+          success: true,
+          message: 'Upcoming Payments are fetched successfully',
+          payments: payments
+        }
+      }catch(error){
+        console.error('Error in fetching the upcoming payments of Tenant: ', error.message);
+        return{
+          success: false,
+          message: 'Failed to fetch the upcoming payments of Tenant',
+          payments: []
+        }
+      }
+    }
+
+    async getPaymentHistory(){
+      try{
+        const payments = await this.paymentRepository.getPaymentHistory();
+        return{
+          success: true,
+          message: 'Payment History is fetched',
+          payments: payments
+        }
+      }catch(error){
+        console.error('Error in fetching the payment history: ', error.message);
+
+      }
+    }
+
+    async getUpcomingPayments(){
+      try{
+        const payments = await this.paymentRepository.getUpcomingPayments();
+        return{
+          success: true,
+          message: 'Upcoming Payments are fetched successfully',
+          payments: payments
+        }
+      }catch(error){
+        console.error('Error in fetching the upcoming payments: ', error.message);
+        return{
+          success: false,
+          message: 'Failed to fetch the upcoming payments',
+          payments: []
+        }
+      }
+    }
 }

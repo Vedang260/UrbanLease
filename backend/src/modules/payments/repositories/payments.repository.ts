@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Payment } from '../entities/payment.entity';
 import { CreatePaymentDto } from '../dtos/createPayments.dto';
+import { PaymentStatus } from 'src/common/enums/paymentStatus.enums';
 
 @Injectable()
 export class PaymentRepository{
@@ -50,6 +51,58 @@ export class PaymentRepository{
         } catch(error) {
             console.error('Error finding payment by transaction ID', error.message);
             throw new InternalServerErrorException('Error finding payment by transaction ID');
+        }
+    }
+
+    // fetching the payment history of Tenant
+    async getPaymentHistoryOfTenant(tenantId: string){
+        try{
+            return await this.paymentRepository.find({
+                where: { tenantId, status: PaymentStatus.COMPLETED },
+                order: { paidDate: 'DESC' }
+            });
+        }catch(error){
+            console.error('Error in fetching the payment history of tenant: ', error.message);
+            throw new InternalServerErrorException('Failed to fetch the payment History of Tenant');
+        }
+    }
+
+    // fetching the Upcoming payments of Tenant
+    async getUpcomingPaymentsOfTenant(tenantId: string){
+        try{
+            return await this.paymentRepository.find({
+                where: { tenantId, status: PaymentStatus.PENDING },
+                order: { dueDate: 'DESC' }
+            });
+        }catch(error){
+            console.error('Error in fetching the upcoming payments of tenant: ', error.message);
+            throw new InternalServerErrorException('Failed to fetch the upcoming payments of Tenant');
+        }
+    }
+
+    // fetching the payment history
+    async getPaymentHistory(){
+        try{
+            return await this.paymentRepository.find({
+                where: { status: PaymentStatus.COMPLETED },
+                order: { paidDate: 'DESC' }
+            });
+        }catch(error){
+            console.error('Error in fetching the payment history: ', error.message);
+            throw new InternalServerErrorException('Failed to fetch the payment History');
+        }
+    }
+
+    // fetching the Upcoming payments
+    async getUpcomingPayments(){
+        try{
+            return await this.paymentRepository.find({
+                where: { status: PaymentStatus.PENDING },
+                order: { dueDate: 'DESC' }
+            });
+        }catch(error){
+            console.error('Error in fetching the upcoming payments: ', error.message);
+            throw new InternalServerErrorException('Failed to fetch the upcoming payments');
         }
     }
 }

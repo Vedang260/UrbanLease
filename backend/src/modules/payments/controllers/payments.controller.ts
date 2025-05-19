@@ -10,6 +10,34 @@ import { Roles } from 'src/common/decorators/roles.decorators';
 export class PaymentsController {
   constructor(private readonly paymentService: PaymentService) {}
 
+  @Get('/history/tenant')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.TENANT)
+  async getPaymentHistoryOfTenant(@Req() req: Request){
+    return await this.paymentService.getPaymentHistoryOfTenant(req['user'].userId);
+  }
+
+  @Get('/upcoming/tenant')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.TENANT)
+  async getUpcomingPaymentsOfTenant(@Req() req: Request){
+    return await this.paymentService.getUpcomingPaymentsOfTenant(req['user'].userId);
+  }
+
+  @Get('/history')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
+  async getPaymentHistory(){
+    return await this.paymentService.getPaymentHistory();
+  }
+
+  @Get('/upcoming')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
+  async getUpcomingPayments(){
+    return await this.paymentService.getUpcomingPayments();
+  }
+
   @Get(':paymentId')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER, UserRole.TENANT)
