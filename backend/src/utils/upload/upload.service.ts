@@ -46,4 +46,67 @@ export class UploadService {
         return Promise.all(uploadPromises);
     }
 
+  async uploadPDF(
+    file: Express.Multer.File,
+    folder: string = 'legal_documents'
+  ): Promise<{
+    success: boolean;
+    message: string;
+    url?: string;
+    publicId?: string;
+    error?: string;
+  }> {
+    return new Promise((resolve) => {
+      if (!file) {
+        resolve({
+          success: false,
+          message: 'No file provided',
+          error: 'FILE_MISSING'
+        });
+        return;
+      }
+
+      if (file.mimetype !== 'application/pdf') {
+        resolve({
+          success: false,
+          message: 'Only PDF files are allowed',
+          error: 'INVALID_FILE_TYPE'
+        });
+        return;
+      }
+
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: 'raw',
+          format: 'pdf',
+          folder,
+          tags: ['legal_document'] // Optional tagging for organization
+        },
+        (error: UploadApiErrorResponse | undefined, result: UploadApiResponse | undefined) => {
+          if (error) {
+            console.error('Cloudinary upload error:', error);
+            resolve({
+              success: false,
+              message: 'Failed to upload document',
+              error: error.message
+            });
+          } else if (!result) {
+            resolve({
+              success: false,
+              message: 'Cloudinary returned no response',
+              error: 'NO_RESULT'
+            });
+          } else {
+            resolve({
+              success: true,
+              message: 'PDF uploaded successfully',
+              url: result.secure_url,
+            });
+          }
+        }
+      );
+
+      uploadStream.end(file.buffer);
+    });
+  }
 }
