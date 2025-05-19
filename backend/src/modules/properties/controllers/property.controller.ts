@@ -26,7 +26,7 @@ export class PropertyController{
     @Post('upload-image')
     @UseInterceptors(FilesInterceptor('image'))
     @UseGuards(RolesGuard)
-    @Roles(UserRole.ADMIN, UserRole.OWNER)
+    @Roles(UserRole.ADMIN, UserRole.OWNER, UserRole.TENANT)
     async uploadImage(@UploadedFiles() files: Express.Multer.File[]){
         return await this.uploadService.uploadMultipleFiles(files);
     }

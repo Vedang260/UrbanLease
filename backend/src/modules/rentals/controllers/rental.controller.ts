@@ -20,6 +20,20 @@ export class RentalController{
     //     return await this.reviewService.getPropertyReview(propertyId);
     // }
 
+    @Get('/tenants')
+    @UseGuards(RolesGuard)
+    @Roles(UserRole.TENANT)
+    async getRentalRequestsTenant(@Req() req: Request){
+        return await this.rentalService.getRentalApplicationsTenant(req['user'].userId);
+    }
+
+    @Get('/owners')
+    @UseGuards(RolesGuard)
+    @Roles(UserRole.OWNER)
+    async getRentalRequestsOwner(@Req() req: Request){
+        return await this.rentalService.getRentalApplicationOwner(req['user'].userId);
+    }
+
     @Get()
     @UseGuards(RolesGuard)
     @Roles(UserRole.ADMIN)

@@ -43,10 +43,6 @@ export class CreateRentalApplicationDto{
     @IsNotEmpty()
     employerContact: string;
     
-    // 💳 Financial Docs (optional file URLs)
-    @IsNotEmpty()
-    incomeProofUrl: string;
-    
         // 👨‍👩‍👧 Occupants & Pets
     @IsNotEmpty()
     numberOfOccupants: number;

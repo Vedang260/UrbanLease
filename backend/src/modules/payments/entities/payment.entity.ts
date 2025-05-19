@@ -34,7 +34,7 @@ export class Payment{
     @Column({ default: 'stripe' }) 
     paymentMethod: string;
 
-    @Column()
+    @Column({ nullable: true })
     paidDate: Date;
 
     @Column()

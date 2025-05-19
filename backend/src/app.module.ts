@@ -9,6 +9,7 @@ import { NotificationModule } from './modules/notifications/modules/notification
 import { ReviewModule } from './modules/reviewes/modules/review.module';
 import { WebsocketGateway } from './modules/notifications/gateway/notification.gateway';
 import { PropertyModule } from './modules/properties/modules/property.module';
+import { RentalModule } from './modules/rentals/modules/rental.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { PropertyModule } from './modules/properties/modules/property.module';
     UsersModule,
     ReviewModule,
     WebsocketGateway,
-    PropertyModule
+    PropertyModule,
+    RentalModule
   ],
 
 })
@@ -34,8 +36,9 @@ export class AppModule {
     .forRoutes(
       { path: 'users', method: RequestMethod.ALL },
       { path: 'notifications', method: RequestMethod.ALL },
-       { path: 'properties', method: RequestMethod.ALL },
+      { path: 'properties', method: RequestMethod.ALL },
       { path: 'reviews', method: RequestMethod.ALL },
+      { path: 'rentals', method: RequestMethod.ALL },
     );
   }
 }

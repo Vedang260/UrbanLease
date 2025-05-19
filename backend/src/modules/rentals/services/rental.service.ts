@@ -34,7 +34,7 @@ export class RentalService{
 
                 return{
                     success: true,
-                    message: 'Failed to create new App'
+                    message: 'New App is created successfully'
                 }
             }
             throw new Error('Failed to create a new App')
@@ -49,7 +49,12 @@ export class RentalService{
 
     async  getRentalApplicationsTenant(tenantId: string){
         try{
-
+            const rentalApplications = await this.rentalRepository.getRentalApplicationTenant(tenantId);
+            return{
+                success: true,
+                message: 'Your rental application is fetched successfully',
+                rentalApplication : rentalApplications
+            }
         }catch(error){
             console.error('Error in fetching tenant rental applications');
             return{
@@ -61,7 +66,12 @@ export class RentalService{
 
     async getRentalApplicationOwner(ownerId: string){
         try{
-
+            const rentalApplications = await this.rentalRepository.getRenatlApplicationOwner(ownerId);
+            return{
+                success: true,
+                message: 'Your rental application is fetched successfully',
+                rentalApplication : rentalApplications
+            }
         }catch(error){
             console.error('Error in fetching rental applications for owner');
             return{
@@ -74,6 +84,11 @@ export class RentalService{
     async getAllRentalApplications(){
         try{
             const rentals = await this.rentalRepository.getAllRentalApplications();
+            return{
+                success: true,
+                message: 'All rental applications are fetched',
+                rentalApplications: rentals
+            }
         }catch(error){
             console.error('Error in fetching all rental applications');
             return{

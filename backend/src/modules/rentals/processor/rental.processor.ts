@@ -10,7 +10,8 @@ import { NotificationType } from 'src/common/enums/notificationType.enums';
 export class RentalProcessor {
   
     constructor(
-        @InjectQueue('notificationsQueue') private notificationsQueue: Queue
+        @InjectQueue('notificationsQueue') private notificationsQueue: Queue,
+        @InjectQueue('agreementsQueue') private agreementsQueue: Queue
     ) {}
 
     @Process('rentals') // Job Name
@@ -27,7 +28,8 @@ export class RentalProcessor {
             await this.notificationsQueue.add('notify', {notificationDto});
 
             if(status === 'approved'){
-                
+                await this.agreementsQueue.add('generateAgreement', rentalApplication);
+                console.log('Rental Agreement details sent...');
             }
 
         }catch(error){

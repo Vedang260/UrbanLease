@@ -71,10 +71,6 @@ export class RentalApplication {
     @Column()
     employerContact: string;
 
-    // 💳 Financial Docs (optional file URLs)
-    @Column({ nullable: true })
-    incomeProofUrl: string;
-
     // 👨‍👩‍👧 Occupants & Pets
     @Column('int')
     numberOfOccupants: number;

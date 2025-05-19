@@ -56,7 +56,11 @@ export class RentalRepository{
 
     async getAllRentalApplications(){
         try{
-
+            const rentalApplications = await this.rentalRepository
+                .createQueryBuilder('rentalApplication')
+                .innerJoinAndSelect('rentalApplication.property', 'property')
+                .getMany();
+            return rentalApplications;
         }catch(error){
             console.error('Error in fetching the applications for Admin: ', error.message);
             throw new InternalServerErrorException('Failed to fetch all Rental Application');
