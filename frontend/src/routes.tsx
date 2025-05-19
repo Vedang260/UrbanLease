@@ -9,6 +9,8 @@ import MyProperty from './components/owner/MyProperty';
 import AddPropertyForm from './components/owner/AddPropertyForm';
 import UpcomingPayments from './components/tenant/UpcomingPayments';
 import PaymentHistory from './components/tenant/PaymentHistory';
+import UpcomingPaymentsForTenant from './components/tenant/UpcomingPayments';
+import PaymentHistoryForTenant from './components/tenant/PaymentHistory';
 
 const AppRoutes = () => {
   return (
@@ -18,10 +20,12 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />}/>
       <Route path="/admin/properties/pending" element={<PropertyRequest />} />
       <Route path="/admin/property/:propertyId" element={<PropertyDetails />} />
+      <Route path="/admin/payments/upcoming" element={<UpcomingPayments />} />
+      <Route path="/admin/payments/history" element={<PaymentHistory />} />
       <Route path="/owner/properties/my-properties" element={<MyProperty />} />
       <Route path="/owner/properties/new" element={<AddPropertyForm />} />
-      <Route path="/tenants/payments/upcoming" element={<UpcomingPayments />} />
-      <Route path="/tenants/payments/history" element={<PaymentHistory />} />
+      <Route path="/tenants/payments/upcoming" element={<UpcomingPaymentsForTenant />} />
+      <Route path="/tenants/payments/history" element={<PaymentHistoryForTenant />} />
     </Routes>
   );
 };

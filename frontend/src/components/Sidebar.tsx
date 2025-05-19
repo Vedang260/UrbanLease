@@ -121,6 +121,15 @@ const Sidebar = () => {
         ],
       },
       {
+        name: 'Payments',
+        icon: faCreditCard,
+        path: '/admin/payments',
+        submenu: [
+          { name: 'Payment History', path: '/admin/payments/history' },
+          { name: 'Upcoming Payments', path: '/admin/payments/upcoming' },
+        ],
+      },
+      {
         name: 'System Settings',
         icon: faCog,
         path: '/admin/settings',

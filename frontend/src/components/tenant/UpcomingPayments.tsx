@@ -21,7 +21,7 @@ import { format, parseISO } from 'date-fns';
 import type { Payment } from '../../types/payments';
 import { initiatePayment } from '../../apis/payments';
 
-const UpcomingPayments: React.FC = () => {
+const UpcomingPaymentsForTenant: React.FC = () => {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6); // 6 cards per page
@@ -347,4 +347,4 @@ const UpcomingPayments: React.FC = () => {
   );
 };
 
-export default UpcomingPayments;
+export default UpcomingPaymentsForTenant;
