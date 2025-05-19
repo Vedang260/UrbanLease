@@ -10,6 +10,7 @@ import { AgreementRepository } from '../repositories/agreement.repository';
 import { AgreementService } from '../service/agreement.service';
 import { UploadModule } from 'src/utils/upload/upload.module';
 import { UsersModule } from 'src/modules/users/modules/user.module';
+import { PaymentModule } from 'src/modules/payments/modules/payments.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Agreement]), 
@@ -17,6 +18,7 @@ import { UsersModule } from 'src/modules/users/modules/user.module';
     NotificationModule,
     UploadModule,
     UsersModule,
+    PaymentModule,
     BullModule.registerQueue({
         name: 'agreementsQueue',
     }),

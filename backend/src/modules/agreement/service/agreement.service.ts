@@ -165,7 +165,8 @@ export class AgreementService{
             const newAgreement = await this.agreementRepository.createAgreement(createAgreementDto);
             return{
                 success: true,
-                message: 'Agreement is created'
+                message: 'Agreement is created',
+                agreement: newAgreement
             }
         }catch(error){
             console.error('Error in creating agreement: ', error.message);

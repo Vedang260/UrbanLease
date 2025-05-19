@@ -11,6 +11,7 @@ import { WebsocketGateway } from './modules/notifications/gateway/notification.g
 import { PropertyModule } from './modules/properties/modules/property.module';
 import { RentalModule } from './modules/rentals/modules/rental.module';
 import { AgreementModule } from './modules/agreement/modules/agreement.module';
+import { PaymentModule } from './modules/payments/modules/payments.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { AgreementModule } from './modules/agreement/modules/agreement.module';
     WebsocketGateway,
     PropertyModule,
     RentalModule,
-    AgreementModule
+    AgreementModule,
+    PaymentModule
   ],
 
 })
@@ -41,6 +43,7 @@ export class AppModule {
       { path: 'properties', method: RequestMethod.ALL },
       { path: 'reviews', method: RequestMethod.ALL },
       { path: 'rentals', method: RequestMethod.ALL },
+      { path: 'payments', method: RequestMethod.ALL },
       { path: 'agreements', method: RequestMethod.ALL },
     );
   }
