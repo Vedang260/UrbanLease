@@ -79,7 +79,7 @@ export class RentalRepository{
 
     async updateRentalStatus(rentalApplicationId: string, status: ApplicationStatus): Promise<boolean>{
         try{
-            const result = await this.rentalRepository.update({rentalApplicationId}, {status});
+            const result = await this.rentalRepository.update(rentalApplicationId, {status});
             return result.affected ? result.affected>0 : false;
         }catch(error){
             console.error('Error in updating the rental status: ', error.message);

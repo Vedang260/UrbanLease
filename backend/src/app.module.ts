@@ -10,6 +10,7 @@ import { ReviewModule } from './modules/reviewes/modules/review.module';
 import { WebsocketGateway } from './modules/notifications/gateway/notification.gateway';
 import { PropertyModule } from './modules/properties/modules/property.module';
 import { RentalModule } from './modules/rentals/modules/rental.module';
+import { AgreementModule } from './modules/agreement/modules/agreement.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { RentalModule } from './modules/rentals/modules/rental.module';
     ReviewModule,
     WebsocketGateway,
     PropertyModule,
-    RentalModule
+    RentalModule,
+    AgreementModule
   ],
 
 })
@@ -39,6 +41,7 @@ export class AppModule {
       { path: 'properties', method: RequestMethod.ALL },
       { path: 'reviews', method: RequestMethod.ALL },
       { path: 'rentals', method: RequestMethod.ALL },
+      { path: 'agreements', method: RequestMethod.ALL },
     );
   }
 }

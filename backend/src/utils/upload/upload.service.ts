@@ -109,4 +109,52 @@ export class UploadService {
       uploadStream.end(file.buffer);
     });
   }
+
+    async uploadPDFBuffer(
+    buffer: Buffer,
+    folder: string = 'legal_documents',
+  ): Promise<{
+    success: boolean;
+    message: string;
+    url?: string;
+    publicId?: string;
+    error?: string;
+  }> {
+    return new Promise((resolve) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: 'raw',
+          format: 'pdf',
+          folder,
+          tags: ['legal_document'],
+        },
+        (error: UploadApiErrorResponse | undefined, result: UploadApiResponse | undefined) => {
+          if (error) {
+            console.error('Cloudinary upload error:', error);
+            resolve({
+              success: false,
+              message: 'Failed to upload document',
+              error: error.message,
+            });
+          } else if (!result) {
+            resolve({
+              success: false,
+              message: 'Cloudinary returned no response',
+              error: 'NO_RESULT',
+            });
+          } else {
+            resolve({
+              success: true,
+              message: 'PDF uploaded successfully',
+              url: result.secure_url,
+              publicId: result.public_id,
+            });
+          }
+        },
+      );
+
+      uploadStream.end(buffer);
+    });
+  }
+
 }

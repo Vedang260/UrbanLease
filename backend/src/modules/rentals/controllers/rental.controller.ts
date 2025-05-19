@@ -5,6 +5,7 @@ import { UserRole } from "src/common/enums/roles.enums";
 import { Roles } from "src/common/decorators/roles.decorators";
 import { CreateRentalApplicationDto } from "../dtos/rentalApplication.dto";
 import { RentalService } from "../services/rental.service";
+import { ApplicationStatus } from "src/common/enums/applicationStatus.enums";
 
 @Controller('rentals')
 @UseGuards(JwtAuthGuard)
@@ -46,5 +47,12 @@ export class RentalController{
     @Roles(UserRole.TENANT)
     async createRental(@Req() req: Request, @Body() createRentalDto: CreateRentalApplicationDto){
         return await this.rentalService.createNewApplication(req['user'].userId, createRentalDto);
+    }
+
+    @Put(':id')
+    @UseGuards(RolesGuard)
+    @Roles(UserRole.OWNER)
+    async updateStatus(@Param('id') rentalApplicationId: string,@Body() body: { status:ApplicationStatus}){
+        return await this.rentalService.updateRentalStatus(rentalApplicationId, body.status);
     }
 }

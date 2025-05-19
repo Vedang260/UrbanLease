@@ -8,11 +8,15 @@ import { AgreementProcessor } from '../processor/agreement.processor';
 import { AgreementController } from '../controller/agreement.controller';
 import { AgreementRepository } from '../repositories/agreement.repository';
 import { AgreementService } from '../service/agreement.service';
+import { UploadModule } from 'src/utils/upload/upload.module';
+import { UsersModule } from 'src/modules/users/modules/user.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Agreement]), 
     PropertyModule,
     NotificationModule,
+    UploadModule,
+    UsersModule,
     BullModule.registerQueue({
         name: 'agreementsQueue',
     }),

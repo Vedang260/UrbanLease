@@ -28,7 +28,7 @@ export class RentalProcessor {
             await this.notificationsQueue.add('notify', {notificationDto});
 
             if(status === 'approved'){
-                await this.agreementsQueue.add('generateAgreement', rentalApplication);
+                await this.agreementsQueue.add('generateAgreement', {rentalApplication});
                 console.log('Rental Agreement details sent...');
             }
 
