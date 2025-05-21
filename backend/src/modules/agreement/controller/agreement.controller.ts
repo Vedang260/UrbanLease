@@ -18,4 +18,12 @@ export class AgreementController{
     async getTenantAgreements(@Req() req: Request){
         return await this.agreementService.getAgreementsForTenant(req['user'].userId);
     }
+
+    @Get('/')
+    @UseGuards(RolesGuard)
+    @Roles(UserRole.ADMIN)
+    async getAllAgreements(){
+        return await this.agreementService.getAgreementsForAdmin();
+    }
 }
+
