@@ -30,7 +30,7 @@ const PropertyListing: React.FC = () => {
 
                     console.log("Response in property", response);
                     if (response.success) {
-                        setProperties(response?.propertyRequest);
+                        setProperties(response?.properties);
                         console.log(properties);
                     } else {
                         toast.error(response.message);

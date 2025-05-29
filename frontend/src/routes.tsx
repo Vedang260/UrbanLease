@@ -11,6 +11,7 @@ import UpcomingPayments from './components/tenant/UpcomingPayments';
 import PaymentHistory from './components/tenant/PaymentHistory';
 import UpcomingPaymentsForTenant from './components/tenant/UpcomingPayments';
 import PaymentHistoryForTenant from './components/tenant/PaymentHistory';
+import PropertyListing from './pages/PropertyListing';
 
 const AppRoutes = () => {
   return (
@@ -18,6 +19,7 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />}/>
       <Route path="/register" element={<Register />}/>
       <Route path="/login" element={<Login />}/>
+      <Route path="/properties" element={<PropertyListing />}/>
       <Route path="/admin/properties/pending" element={<PropertyRequest />} />
       <Route path="/admin/property/:propertyId" element={<PropertyDetails />} />
       <Route path="/admin/payments/upcoming" element={<UpcomingPayments />} />
