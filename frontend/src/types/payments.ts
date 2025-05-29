@@ -7,3 +7,8 @@ export interface UpcomingPaymentTenant {
   dueDate: string;
   propertyTitle: string;
 }
+
+export interface PaymentHistoryTenant extends UpcomingPaymentTenant{
+  transactionId: string;
+  paidDate: string;
+}

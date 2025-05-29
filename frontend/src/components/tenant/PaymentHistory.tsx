@@ -3,14 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faCalendarAlt,
   faMoneyBillWave,
-  faCreditCard,
-  faCheckCircle,
-  faTimesCircle,
   faClock,
-  faReceipt,
+  faCheckCircle,
+  faExclamationCircle,
+  faCreditCard,
   faChevronLeft,
   faChevronRight,
-  faEllipsisH
+  faEllipsisH,
+  faBuilding,
+  faHome,
+  faCalendarCheck
 } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
 import { fetchPaymentHistoryForTenant } from '../../apis/payments';
@@ -19,17 +21,17 @@ import { setLoading } from '../../redux/slice/loadingSlice';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { format, parseISO } from 'date-fns';
-import type { Payment } from '../../types/payments';
+import type { PaymentHistoryTenant } from '../../types/payments';
 
 const PaymentHistoryForTenant: React.FC = () => {
-  const [payments, setPayments] = useState<Payment[]>([]);
+  const [payments, setPayments] = useState<PaymentHistoryTenant[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6); // 6 cards per page
+  const [itemsPerPage] = useState(10); // 10 rows per page
   const { token } = useAppSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const loadPaymentHistory = async () => {
+    const loadPayments = async () => {
       try {
         dispatch(setLoading(true));
         if (token) {
@@ -42,13 +44,13 @@ const PaymentHistoryForTenant: React.FC = () => {
         }
       } catch (err) {
         console.log(err);
-        toast.error('Failed to load payment history');
+        toast.error('Failed to load upcoming payments');
       } finally {
         dispatch(setLoading(false));
       }
     };
 
-    loadPaymentHistory();
+    loadPayments();
   }, [token, dispatch]);
 
   // Pagination logic
@@ -62,36 +64,19 @@ const PaymentHistoryForTenant: React.FC = () => {
     return format(parseISO(dateString), 'MMM dd, yyyy');
   };
 
-  // Format time to readable format
-  const formatTime = (dateString: string) => {
-    return format(parseISO(dateString), 'hh:mm a');
-  };
-
-  // Get status icon and color
-  const getStatusConfig = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return { icon: faCheckCircle, color: 'bg-green-100 text-green-800' };
-      case 'failed':
-        return { icon: faTimesCircle, color: 'bg-red-100 text-red-800' };
-      case 'refunded':
-        return { icon: faReceipt, color: 'bg-blue-100 text-blue-800' };
-      default:
-        return { icon: faClock, color: 'bg-gray-100 text-gray-800' };
-    }
-  };
-
-  // Animation variants
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeOut"
-      }
-    }
+  // Status badge component
+  const StatusBadge = ({ status }: { status: string }) => {
+    return (
+      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+        status === 'pending' 
+          ? 'bg-yellow-100 text-yellow-800' 
+          : status === 'paid'
+            ? 'bg-green-100 text-green-800'
+            : 'bg-red-100 text-red-800'
+      }`}>
+        {status.charAt(0).toUpperCase() + status.slice(1)}
+      </span>
+    );
   };
 
   return (
@@ -102,123 +87,181 @@ const PaymentHistoryForTenant: React.FC = () => {
           Payment History
         </h1>
         <p className="text-gray-600">
-          {payments.length} {payments.length === 1 ? 'payment' : 'payments'} recorded
+          {payments.length} payments found
         </p>
       </div>
 
-      {/* Payments Grid */}
+      {/* Payments Table */}
       {currentPayments.length === 0 ? (
         <div className="text-center py-20">
           <h3 className="text-xl font-bold text-secondary-600 mb-4">
             No payment history found
           </h3>
           <p className="text-secondary-500">
-            Your payment history will appear here once you make payments
+            You don't have any payments made at this time
           </p>
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {currentPayments.map((payment, index) => {
-              const statusConfig = getStatusConfig(payment.status);
-              return (
-                <motion.div
-                  key={payment.paymentId}
-                  variants={cardVariants}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div className="p-6">
-                      {/* Payment Header */}
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h3 className="text-lg font-bold text-gray-800">
-                            Payment #{payment.agreementId}
-                          </h3>
-                          <p className="text-sm text-gray-500">
-                            {payment.transactionId ? `Txn: ${payment.transactionId.slice(0, 8)}...` : 'No transaction ID'}
-                          </p>
-                        </div>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusConfig.color}`}>
-                          <FontAwesomeIcon icon={statusConfig.icon} className="mr-1" />
-                          {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
-                        </span>
-                      </div>
-
-                      {/* Payment Amount */}
-                      <div className="flex items-center mb-4">
-                        <div className="bg-accent/10 p-3 rounded-lg mr-4">
-                          <FontAwesomeIcon 
+          <div className="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Payment ID
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <FontAwesomeIcon 
+                              icon={faHome} 
+                              className="text-accent mr-2"
+                      />
+                      Property
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <FontAwesomeIcon 
                             icon={faMoneyBillWave} 
-                            className="text-accent text-xl"
+                            className="text-accent mr-2"
                           />
-                        </div>
-                        <div>
-                          <p className="text-sm text-gray-500">Amount Paid</p>
-                          <p className="text-2xl font-bold text-gray-800">
-                            ₹{parseFloat(payment.amount).toLocaleString('en-IN')}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Payment Details */}
-                      <div className="space-y-3">
-                        <div className="flex items-center">
-                          <FontAwesomeIcon 
+                      Amount
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      TransactionId
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <FontAwesomeIcon 
+                            icon={faCalendarCheck} 
+                            className="text-accent mr-2"
+                          />
+                      Paid Date
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <FontAwesomeIcon 
                             icon={faCalendarAlt} 
-                            className="text-gray-400 mr-3" 
+                            className="text-gray-400 mr-2" 
                           />
-                          <div>
-                            <p className="text-sm text-gray-500">Paid Date</p>
-                            <p className="text-gray-800">
-                              {payment.paidDate ? (
-                                <>
-                                  {formatDate(payment.paidDate)}
-                                  <span className="text-xs text-gray-500 ml-2">
-                                    {formatTime(payment.paidDate)}
-                                  </span>
-                                </>
-                              ) : 'N/A'}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center">
-                          <FontAwesomeIcon 
-                            icon={faCalendarAlt} 
-                            className="text-gray-400 mr-3" 
-                          />
-                          <div>
-                            <p className="text-sm text-gray-500">Due Date</p>
-                            <p className="text-gray-800">
-                              {formatDate(payment.dueDate)}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center">
-                          <FontAwesomeIcon 
+                      Due Date
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <FontAwesomeIcon 
                             icon={faCreditCard} 
-                            className="text-gray-400 mr-3" 
+                            className="text-gray-400 mr-2" 
                           />
-                          <div>
-                            <p className="text-sm text-gray-500">Payment Method</p>
-                            <p className="text-gray-800 capitalize">
-                              {payment.paymentMethod}
-                            </p>
-                          </div>
+                        Method
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {currentPayments.map((payment, index) => (
+                    <motion.tr
+                      key={payment.paymentId}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                      className="hover:bg-gray-50"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
+                          #{payment.agreementId}
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+                        <div className="text-sm text-gray-500">
+                          {payment.paymentId.slice(0, 8)}...
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            
+                            <span 
+                              className="text-sm font-medium text-gray-900"
+                              title={payment.propertyTitle}  // Shows full title on hover
+                            >
+                              {payment.propertyTitle.length > 20 
+                                ? payment.propertyTitle.slice(0, 20) + '...'
+                                : payment.propertyTitle}
+                            </span>
+                          </div>
+                        </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          
+                          <span className="text-sm font-medium text-gray-900">
+                            ₹{parseFloat(payment.amount).toLocaleString('en-IN')}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          
+                          <span className="text-sm text-gray-900">
+                            {payment.transactionId}..
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          
+                          <span className="text-sm text-gray-900">
+                            {formatDate(payment.paidDate)}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          
+                          <span className="text-sm text-gray-900">
+                            {formatDate(payment.dueDate)}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          
+                          <span className="text-sm text-gray-900 capitalize">
+                            {payment.paymentMethod}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <StatusBadge status={payment.status} />
+                      </td>
+                      {/* <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button
+                          onClick={() => handlePayment(payment.paymentId)}
+                          className={`px-4 py-2 rounded-lg font-medium transition-colors duration-300 ${
+                            payment.status === 'pending'
+                              ? 'bg-accent text-white hover:bg-accent-dark'
+                              : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                          }`}
+                          disabled={payment.status !== 'pending'}
+                        >
+                          {payment.status === 'pending' ? (
+                            <>
+                              <FontAwesomeIcon icon={faCheckCircle} className="mr-2" />
+                              Pay Now
+                            </>
+                          ) : payment.status === 'paid' ? (
+                            'Completed'
+                          ) : (
+                            'Failed'
+                          )}
+                        </button>
+                      </td> */}
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* Pagination */}
           {payments.length > itemsPerPage && (
-            <div className="flex justify-center mt-10">
+            <div className="flex justify-center mt-6">
               <nav className="flex items-center space-x-2">
                 <button
                   onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

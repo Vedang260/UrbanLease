@@ -18,7 +18,7 @@ export const initiatePayment = async (paymentId: string, token: string) => {
 
 export const fetchUpcomingPaymentsForTenant = async (token: string) => {
     try{
-        const response = await axios.get(`${BACKEND_URL}/api/payments/upcoming/tenant`, {
+        const response = await axios.get(`${BACKEND_URL}/api/payments/upcoming`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export const fetchUpcomingPaymentsForTenant = async (token: string) => {
 
 export const fetchPaymentHistoryForTenant = async (token: string) => {
     try{
-        const response = await axios.get(`${BACKEND_URL}/api/payments/history/tenant`, {
+        const response = await axios.get(`${BACKEND_URL}/api/payments/history`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
