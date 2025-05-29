@@ -194,4 +194,21 @@ export class PropertyService{
             }
         }
     }
+
+    async getPropertyListing(){
+        try{
+            const properties = await this.propertyRepository.getPropertyListing();
+            return{
+                success: true,
+                message: 'All Properties are listed',
+                properties: properties
+            }
+        }catch(error){
+            console.error('Error in fetching the property list: ', error.message);
+            return{
+                success: false,
+                message: 'Failed to fetch the property list'
+            }
+        }
+    }
 }

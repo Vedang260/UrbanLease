@@ -1,14 +1,10 @@
 import axios from 'axios';
-import type { PropertyFormValues } from '../types/property';
-import { FolderMinus } from 'lucide-react';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-
-
 export const fetchProperties = async (token: string) => {
     try {
-      const response = await axios.get(`${BACKEND_URL}/api/properties`, {
+      const response = await axios.get(`${BACKEND_URL}/api/properties/list`, {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',

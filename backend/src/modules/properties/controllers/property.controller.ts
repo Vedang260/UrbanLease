@@ -31,6 +31,13 @@ export class PropertyController{
         return await this.uploadService.uploadMultipleFiles(files);
     }
 
+    @Get('list')
+    @UseGuards(RolesGuard)
+    @Roles(UserRole.OWNER, UserRole.ADMIN, UserRole.TENANT)
+    async getPropertiesList(@Req() req: Request){
+        return await this.propertyService.getPropertyListing();
+    }
+
     @Get('owner')
     @UseGuards(RolesGuard)
     @Roles(UserRole.OWNER)
