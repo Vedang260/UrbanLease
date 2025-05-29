@@ -4,6 +4,7 @@ import { PaymentRepository } from '../repositories/payments.repository';
 import { PaymentStatus } from '../../../common/enums/paymentStatus.enums';
 import * as dotenv from 'dotenv';
 import { CreatePaymentDto } from '../dtos/createPayments.dto';
+import { UserRole } from 'src/common/enums/roles.enums';
 
 dotenv.config();
 
@@ -144,44 +145,22 @@ export class PaymentService {
             const payments = await this.paymentRepository.createBulkPayments(paymentsDto);
         }catch(error){
             console.error('Error in creating bulk payments: ', error.message);
+            return {
+              success: false,
+              message: 'Failed to create bulk payments'
+            }
         }
     }
 
-    async getPaymentHistoryOfTenant(tenantId: string){
+    async getPaymentHistory(role: string, userId: string){
       try{
-        const payments = await this.paymentRepository.getPaymentHistoryOfTenant(tenantId);
-        return{
-          success: true,
-          message: 'Payment History is fetched',
-          payments: payments
-        }
-      }catch(error){
-        console.error('Error in fetching the payment history of tenant: ', error.message);
-
-      }
-    }
-
-    async getUpcomingPaymentsOfTenant(tenantId: string){
-      try{
-        const payments = await this.paymentRepository.getUpcomingPaymentsOfTenant(tenantId);
-        return{
-          success: true,
-          message: 'Upcoming Payments are fetched successfully',
-          payments: payments
-        }
-      }catch(error){
-        console.error('Error in fetching the upcoming payments of Tenant: ', error.message);
-        return{
-          success: false,
-          message: 'Failed to fetch the upcoming payments of Tenant',
-          payments: []
-        }
-      }
-    }
-
-    async getPaymentHistory(){
-      try{
-        const payments = await this.paymentRepository.getPaymentHistory();
+          let payments;
+          if(role === UserRole.ADMIN)
+            payments = await this.paymentRepository.getPaymentHistory();
+          else if(role === UserRole.OWNER)
+            payments = await this.paymentRepository.getPaymentHistoryOfTenant(userId);
+          else if(role === UserRole.TENANT)  
+            payments = await this.paymentRepository.getPaymentHistoryOfTenant(userId);
         return{
           success: true,
           message: 'Payment History is fetched',
@@ -189,13 +168,22 @@ export class PaymentService {
         }
       }catch(error){
         console.error('Error in fetching the payment history: ', error.message);
-
+        return{
+          success: false,
+          message: 'Failed to fetch the payment history',
+          payments: []
+        }
       }
     }
 
-    async getUpcomingPayments(){
+    async getUpcomingPayments(role : string, userId: string){
       try{
-        const payments = await this.paymentRepository.getUpcomingPayments();
+        let payments;
+        if(role === 'ADMIN')
+            payments = await this.paymentRepository.getUpcomingPayments();
+        else if(role === 'TENANT')
+            payments = await this.paymentRepository.getUpcomingPaymentsOfTenant(userId);
+
         return{
           success: true,
           message: 'Upcoming Payments are fetched successfully',

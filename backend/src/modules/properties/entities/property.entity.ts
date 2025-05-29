@@ -8,6 +8,7 @@ import { RentalPeriod } from "src/common/enums/rentalPeroid.enums";
 import { PropertyStatus } from "src/common/enums/propertyStatus.enums";
 import { Review } from "src/modules/reviewes/entities/review.entity";
 import { RentalApplication } from "src/modules/rentals/entities/rentalApplication.entity";
+import { Agreement } from "src/modules/agreement/entities/agreement.entity";
 
 @Entity({ name: 'property' })
 export class Property {
@@ -84,6 +85,9 @@ export class Property {
 
     @OneToMany(() => RentalApplication, (rentalApplication) => rentalApplication.property, { onDelete: 'CASCADE' })
     rentalApplications: RentalApplication[];
+
+    @OneToMany(() => Agreement, (agreement) => agreement.property)
+    agreements: Agreement[];
 
     @Column({ type: 'enum', enum: PropertyStatus, default: PropertyStatus.PENDING_APPROVAL})
     status: PropertyStatus;

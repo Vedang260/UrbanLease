@@ -15,6 +15,7 @@ import {
   faUsers,
   faCog,
   faFileContract,
+  faNotesMedical,
 } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
@@ -41,7 +42,7 @@ const Sidebar = () => {
       {
         name: 'Browse Properties',
         icon: faSearch,
-        path: '/tenant/properties',
+        path: '/properties',
         submenu: null,
       },
       {
@@ -61,6 +62,12 @@ const Sidebar = () => {
           { name: 'Payment History', path: '/tenants/payments/history' },
           { name: 'Upcoming Payments', path: '/tenants/payments/upcoming' },
         ],
+      },
+      {
+        name: 'My Agreements',
+        icon: faNotesMedical,
+        path: '/tenant/agreements',
+        submenu: null,
       },
     ],
     owner: [

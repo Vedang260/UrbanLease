@@ -10,32 +10,18 @@ import { Roles } from 'src/common/decorators/roles.decorators';
 export class PaymentsController {
   constructor(private readonly paymentService: PaymentService) {}
 
-  @Get('/history/tenant')
-  @UseGuards(RolesGuard)
-  @Roles(UserRole.TENANT)
-  async getPaymentHistoryOfTenant(@Req() req: Request){
-    return await this.paymentService.getPaymentHistoryOfTenant(req['user'].userId);
-  }
-
-  @Get('/upcoming/tenant')
-  @UseGuards(RolesGuard)
-  @Roles(UserRole.TENANT)
-  async getUpcomingPaymentsOfTenant(@Req() req: Request){
-    return await this.paymentService.getUpcomingPaymentsOfTenant(req['user'].userId);
-  }
-
   @Get('/history')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.ADMIN)
-  async getPaymentHistory(){
-    return await this.paymentService.getPaymentHistory();
+  @Roles(UserRole.ADMIN, UserRole.OWNER, UserRole.TENANT)
+  async getPaymentHistory(@Req() req: Request){
+    return await this.paymentService.getPaymentHistory(req['user'].role, req['user'].userId);
   }
 
   @Get('/upcoming')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.ADMIN)
-  async getUpcomingPayments(){
-    return await this.paymentService.getUpcomingPayments();
+  @Roles(UserRole.ADMIN, UserRole.OWNER, UserRole.TENANT)
+  async getUpcomingPayments(@Req() req: Request){
+    return await this.paymentService.getUpcomingPayments(req['user'].role, req['user'].userId);
   }
 
   @Get(':paymentId')

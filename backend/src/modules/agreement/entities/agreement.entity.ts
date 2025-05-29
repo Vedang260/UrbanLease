@@ -1,5 +1,6 @@
 import { Payment } from "src/modules/payments/entities/payment.entity";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Property } from "src/modules/properties/entities/property.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({ name: 'agreements'})
 export class Agreement{
@@ -23,6 +24,10 @@ export class Agreement{
 
     @OneToMany(() => Payment, (payment) => payment.agreement)
     payments: Payment[];
+
+    @ManyToOne(() => Property, (property) => property.agreements)
+    @JoinColumn({ name: 'propertyId' })
+    property: Property;
 
     @CreateDateColumn()
     createdAt: Date;

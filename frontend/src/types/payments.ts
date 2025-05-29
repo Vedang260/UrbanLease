@@ -1,13 +1,9 @@
-export interface Payment {
+export interface UpcomingPaymentTenant {
   paymentId: string;
-  tenantId: string;
   agreementId: number;
-  transactionId: string | null;
   amount: string;
   status: 'pending' | 'paid' | 'failed';
   paymentMethod: string;
-  paidDate: string | null;
   dueDate: string;
-  createdAt: string;
-  updatedAt: string;
+  propertyTitle: string;
 }
